@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>גלגל המזל – סימולטור</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Assistant','Segoe UI',Tahoma,Geneva,Verdana,sans-serif }
+    .container { max-width: 1100px }
+    canvas { touch-action: none }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-white border-b">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a class="text-xl font-bold" href="index.html">גלגל המזל</a>
+      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="פתח תפריט" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <nav id="siteNav" class="hidden md:flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-sm">
+        <a class="text-gray-600 hover:text-gray-900" href="index.html">בית</a>
+        <a class="text-gray-600 hover:text-gray-900" href="overview.html">סקירה</a>
+        <a class="text-gray-600 hover:text-gray-900" href="architecture.html">תרשים מערכת</a>
+        <a class="text-gray-600 hover:text-gray-900" href="wiring.html">תרשים חיווט</a>
+        <a class="text-gray-600 hover:text-gray-900" href="bom.html">רשימת חלקים</a>
+        <a class="text-gray-600 hover:text-gray-900" href="gallery.html">גלריה</a>
+        <a class="text-gray-600 hover:text-gray-900" href="docs.html">מסמכים</a>
+        <a class="text-gray-600 hover:text-gray-900" href="missing.html">מה חסר?</a>
+        <a class="text-gray-900 font-semibold" href="simulator.html">סימולטור</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-6 space-y-6">
+    <section class="grid lg:grid-cols-2 gap-6">
+      <div class="bg-white rounded-xl shadow p-4">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-lg font-semibold">🎡 טבעת LED (גלגל)</h2>
+          <span class="text-xs text-gray-500">מקטעים: <span id="ringSegmentsLabel">160</span></span>
+        </div>
+        <div class="aspect-square w-full bg-gray-100 rounded-lg relative">
+          <canvas id="ringCanvas" class="absolute inset-0 w-full h-full"></canvas>
+          <div class="absolute left-2 top-2 bg-white/80 rounded px-2 py-1 text-xs text-gray-700">
+            זוית: <span id="angleReadout">0</span>° · חיישן A: <span id="hallA">0</span> · B: <span id="hallB">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow p-4">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-lg font-semibold">🟩 מטריצת LED 32×32</h2>
+          <span class="text-xs text-gray-500">קצב: <span id="fps">0</span> FPS</span>
+        </div>
+        <div class="aspect-square w-full bg-gray-100 rounded-lg relative">
+          <canvas id="matrixCanvas" class="absolute inset-0 w-full h-full"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-xl shadow p-4">
+      <h3 class="text-base font-semibold mb-3">ממשק שליטה</h3>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="space-y-2">
+          <label class="block text-sm">בהירות כללית <span id="brightnessLabel" class="text-gray-500"></span></label>
+          <input id="brightness" type="range" min="5" max="100" value="80" class="w-full" />
+
+          <label class="block text-sm mt-3">מהירות <span id="speedLabel" class="text-gray-500"></span></label>
+          <input id="speed" type="range" min="0" max="200" value="60" class="w-full" />
+
+          <div class="flex items-center gap-3 mt-3">
+            <label class="text-sm">כיוון</label>
+            <button id="dirBtn" class="px-3 py-1 text-sm rounded border">ימין</button>
+          </div>
+
+          <div class="flex items-center gap-3 mt-3">
+            <button id="playBtn" class="px-3 py-1 text-sm rounded bg-emerald-600 text-white">הפעל</button>
+            <button id="stopBtn" class="px-3 py-1 text-sm rounded border">עצור (E‑Stop)</button>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm">תבנית לטבעת</label>
+          <select id="ringPattern" class="w-full border rounded px-2 py-1 text-sm">
+            <option value="rainbow">קשת מסתובבת</option>
+            <option value="solid">צבע אחיד</option>
+            <option value="chase">רדיפה</option>
+            <option value="larson">לארסון</option>
+            <option value="wipe">מחיקה סיבובית</option>
+          </select>
+          <label class="block text-sm mt-3">פאלטה</label>
+          <select id="palette" class="w-full border rounded px-2 py-1 text-sm">
+            <option value="rainbow">Rainbow</option>
+            <option value="warm">Warm</option>
+            <option value="cool">Cool</option>
+            <option value="bw">B/W</option>
+          </select>
+          <label class="block text-sm mt-3">צבע בסיס</label>
+          <input id="baseColor" type="color" value="#ff5500" class="w-24 h-9 border rounded" />
+          <div class="flex items-center gap-2 mt-3">
+            <input id="triangle" type="checkbox" class="scale-110" />
+            <label for="triangle" class="text-sm">משולש עצירה מאיר</label>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm">תבנית למטריצה</label>
+          <select id="matrixPattern" class="w-full border rounded px-2 py-1 text-sm">
+            <option value="noise">Noise</option>
+            <option value="plasma">Plasma</option>
+            <option value="life">Game of Life</option>
+            <option value="scroll">גלילת טקסט</option>
+            <option value="solid">צבע אחיד</option>
+          </select>
+          <label class="block text-sm mt-3">טקסט לגלילה</label>
+          <input id="scrollText" class="w-full border rounded px-2 py-1 text-sm" value="GALGAL HAMAZAL" />
+          <div class="flex items-center gap-2 mt-3">
+            <button id="randomizeBtn" class="px-3 py-1 text-sm rounded border">אקראי</button>
+            <button id="resetLife" class="px-3 py-1 text-sm rounded border">איפוס Life</button>
+          </div>
+          <div class="text-xs text-gray-500 mt-2">חיישני Hall: A/B מדומים ב‑0°/180°. סטטוס מעודכן מעל תרשים הטבעת.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t bg-white">
+    <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© גלגל המזל · סימולטור</div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    const btn = document.getElementById('navToggle');
+    const nav = document.getElementById('siteNav');
+    if (btn && nav) btn.addEventListener('click', ()=> nav.classList.toggle('hidden'));
+
+    // Utility: color helpers
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+    function hsvToRgb(h, s, v){
+      let f = (n, k=(n+h/60)%6) => v - v*s*Math.max(Math.min(k,4-k,1),0);
+      return [f(5), f(3), f(1)];
+    }
+    function lerp(a,b,t){ return a + (b-a)*t }
+    function hexToRgb(hex){
+      const m = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})/i.exec(hex);
+      if(!m) return [255,255,255];
+      return [parseInt(m[1],16), parseInt(m[2],16), parseInt(m[3],16)];
+    }
+    function rgbToCss([r,g,b], a=1){ return `rgba(${r|0},${g|0},${b|0},${a})` }
+
+    // Global state
+    const state = {
+      running: true,
+      dir: 1,
+      brightness: 0.8,
+      speed: 60, // deg/sec
+      ring: { segments: 160, pattern: 'rainbow', baseColor: '#ff5500', palette:'rainbow', angle: 0, triangle:true },
+      matrix: { size: 32, pattern: 'noise', tick: 0, textOffset: 0, life:null }
+    };
+
+    // UI bindings
+    const brightness = document.getElementById('brightness');
+    const brightnessLabel = document.getElementById('brightnessLabel');
+    const speed = document.getElementById('speed');
+    const speedLabel = document.getElementById('speedLabel');
+    const dirBtn = document.getElementById('dirBtn');
+    const playBtn = document.getElementById('playBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const ringPattern = document.getElementById('ringPattern');
+    const palette = document.getElementById('palette');
+    const baseColor = document.getElementById('baseColor');
+    const triangle = document.getElementById('triangle');
+    const matrixPattern = document.getElementById('matrixPattern');
+    const scrollText = document.getElementById('scrollText');
+    const randomizeBtn = document.getElementById('randomizeBtn');
+    const resetLife = document.getElementById('resetLife');
+    const angleReadout = document.getElementById('angleReadout');
+    const hallAEl = document.getElementById('hallA');
+    const hallBEl = document.getElementById('hallB');
+    const ringSegmentsLabel = document.getElementById('ringSegmentsLabel');
+    const fpsEl = document.getElementById('fps');
+    function refreshLabels(){
+      brightnessLabel.textContent = `(${brightness.value}%)`;
+      speedLabel.textContent = `(${speed.value}°/ש׳)`;
+    }
+    brightness.addEventListener('input', ()=>{ state.brightness = brightness.value/100; refreshLabels(); });
+    speed.addEventListener('input', ()=>{ state.speed = Number(speed.value); refreshLabels(); });
+    dirBtn.addEventListener('click', ()=>{ state.dir*=-1; dirBtn.textContent = state.dir>0? 'ימין':'שמאל'; });
+    playBtn.addEventListener('click', ()=> state.running = true);
+    stopBtn.addEventListener('click', ()=> state.running = false);
+    ringPattern.addEventListener('change', ()=> state.ring.pattern = ringPattern.value);
+    palette.addEventListener('change', ()=> state.ring.palette = palette.value);
+    baseColor.addEventListener('input', ()=> state.ring.baseColor = baseColor.value);
+    triangle.addEventListener('change', ()=> state.ring.triangle = triangle.checked);
+    matrixPattern.addEventListener('change', ()=> state.matrix.pattern = matrixPattern.value);
+    randomizeBtn.addEventListener('click', ()=>{ seedNoise(); initLife(); });
+    resetLife.addEventListener('click', ()=> initLife(true));
+    refreshLabels(); triangle.checked = state.ring.triangle;
+
+    // Ring render
+    const ringCanvas = document.getElementById('ringCanvas');
+    const ringCtx = ringCanvas.getContext('2d');
+    // Matrix render
+    const matrixCanvas = document.getElementById('matrixCanvas');
+    const matrixCtx = matrixCanvas.getContext('2d');
+
+    // Resize handlers
+    function fitCanvas(canvas){
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const w = Math.max(200, Math.floor(rect.width * dpr));
+      const h = Math.max(200, Math.floor(rect.height * dpr));
+      if (canvas.width !== w || canvas.height !== h){ canvas.width=w; canvas.height=h; }
+      return {w,h,dpr};
+    }
+
+    // Palettes
+    function paletteColor(idx, total, name){
+      if (name==='rainbow'){
+        const h = 360*(idx/total);
+        const [r,g,b] = hsvToRgb(h, 1, 1);
+        return [r*255,g*255,b*255];
+      } else if (name==='warm'){
+        const t = idx/total; return [lerp(255,255,t), lerp(80,180,t), lerp(0,60,t)];
+      } else if (name==='cool'){
+        const t = idx/total; return [lerp(40,120,t), lerp(150,200,t), lerp(255,255,t)];
+      } else if (name==='bw'){
+        const g = 255*(idx/total); return [g,g,g];
+      }
+      return [255,255,255];
+    }
+
+    // Noise helpers for matrix
+    let noiseSeed = 1;
+    function seedNoise(){ noiseSeed = (Date.now() % 2147483647); }
+    function rand(){ noiseSeed = (noiseSeed*48271)%2147483647; return noiseSeed/2147483647; }
+
+    // Game of Life
+    function initLife(clear){
+      const N = state.matrix.size;
+      const grid = Array.from({length:N}, ()=> Array.from({length:N}, ()=> clear?0: (rand()>0.7?1:0)) );
+      state.matrix.life = grid;
+    }
+    function stepLife(){
+      const N = state.matrix.size; const g = state.matrix.life; if(!g) return;
+      const out = Array.from({length:N}, ()=> Array.from({length:N}, ()=>0));
+      const nb = (x,y)=>{
+        let s=0; for(let dy=-1;dy<=1;dy++) for(let dx=-1;dx<=1;dx++){ if(dx||dy){ const xx=(x+dx+N)%N, yy=(y+dy+N)%N; s+=g[yy][xx]; } } return s;
+      };
+      for(let y=0;y<N;y++) for(let x=0;x<N;x++){
+        const n=nb(x,y); const alive=g[y][x];
+        out[y][x] = (alive && (n===2||n===3)) || (!alive && n===3) ? 1:0;
+      }
+      state.matrix.life = out;
+    }
+
+    seedNoise(); initLife();
+
+    // Animation loop
+    let last=performance.now(); let frames=0, fpsTime=performance.now();
+    function loop(now){
+      requestAnimationFrame(loop);
+      const dt = Math.min(0.05, (now-last)/1000); last=now;
+      if (state.running){
+        // Update ring angle
+        state.ring.angle = (state.ring.angle + state.dir * state.speed * dt) % 360;
+      }
+      drawRing();
+      drawMatrix(dt);
+      frames++; if(now-fpsTime>500){ fpsEl.textContent = Math.round(frames*1000/(now-fpsTime)); fpsTime=now; frames=0; }
+    }
+    requestAnimationFrame(loop);
+
+    function drawRing(){
+      const {w,h,dpr} = fitCanvas(ringCanvas);
+      const ctx = ringCtx; ctx.clearRect(0,0,w,h);
+      const cx=w/2, cy=h/2; const R = Math.min(w,h)*0.36; const thickness = R*0.28; const seg = state.ring.segments;
+      ringSegmentsLabel.textContent = String(seg);
+      const bright = state.brightness;
+      // Sensors at 0 and 180 degrees
+      const a0 = ((state.ring.angle%360)+360)%360; // [0..360)
+      const sensorA = (a0>358 || a0<2) ? 1:0; // near 0°
+      const sensorB = (Math.abs(a0-180)<2) ? 1:0;
+      hallAEl.textContent = sensorA; hallBEl.textContent = sensorB; angleReadout.textContent = a0.toFixed(0);
+
+      const startAngle = -Math.PI/2; // top
+      const per = 2*Math.PI/seg;
+      for(let i=0;i<seg;i++){
+        let color;
+        switch(state.ring.pattern){
+          case 'solid': color = hexToRgb(state.ring.baseColor); break;
+          case 'chase': {
+            const phase = (i*8 + a0*2)%360; const on = phase<60; color = on? paletteColor(i, seg, state.ring.palette): [30,30,30];
+            break;
+          }
+          case 'larson': {
+            const head = (a0/360)*seg; const d = Math.abs(i-head); const t = Math.max(0, 1 - d/8);
+            const [r,g,b]=paletteColor(i, seg, state.ring.palette); color=[r*t,g*t,b*t];
+            break;
+          }
+          case 'wipe': {
+            const threshold = (a0/360)*seg; const on = i<threshold; color = on? paletteColor(i, seg, state.ring.palette): [10,10,10];
+            break;
+          }
+          case 'rainbow':
+          default:
+            const idx = (i + Math.floor((a0/360)*seg))%seg; color = paletteColor(idx, seg, state.ring.palette); break;
+        }
+        // Apply brightness
+        color = color.map(c=> c*bright);
+        const a1 = startAngle + i*per;
+        ctx.beginPath();
+        ctx.strokeStyle = rgbToCss(color);
+        ctx.lineWidth = thickness;
+        ctx.arc(cx, cy, R, a1+0.02, a1+per-0.02);
+        ctx.stroke();
+      }
+
+      // Triangle indicator at top when enabled
+      if (state.ring.triangle){
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate((state.ring.angle-90)*Math.PI/180);
+        ctx.fillStyle = 'rgba(255,200,0,0.85)';
+        const triR = R - thickness*0.65;
+        ctx.beginPath();
+        ctx.moveTo(triR, 0);
+        ctx.lineTo(triR+18*dpr, 10*dpr);
+        ctx.lineTo(triR+18*dpr, -10*dpr);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function drawMatrix(dt){
+      const {w,h} = fitCanvas(matrixCanvas);
+      const ctx = matrixCtx; ctx.clearRect(0,0,w,h);
+      const N = state.matrix.size; const pad = Math.floor(Math.min(w,h)*0.04); const size = Math.min(w,h)-pad*2;
+      const cell = size / N; const ox = (w-size)/2; const oy = (h-size)/2;
+      const bright = state.brightness;
+
+      // build frame pixels
+      const pixels = [];
+      if (state.matrix.pattern==='noise'){
+        for(let y=0;y<N;y++){
+          for(let x=0;x<N;x++){
+            const v = rand(); const c = [v*255, (1-v)*255, 200*(0.5+0.5*v)];
+            pixels.push(c);
+          }
+        }
+      } else if (state.matrix.pattern==='plasma'){
+        state.matrix.tick += dt;
+        for(let y=0;y<N;y++){
+          for(let x=0;x<N;x++){
+            const v = 0.5 + 0.5*Math.sin(x*0.3 + state.matrix.tick*2) * Math.cos(y*0.3 + state.matrix.tick*1.3);
+            const [r,g,b] = hsvToRgb(360*v, 1, 1);
+            pixels.push([r*255*bright,g*255*bright,b*255*bright]);
+          }
+        }
+      } else if (state.matrix.pattern==='life'){
+        if (state.running) stepLife();
+        for(let y=0;y<N;y++) for(let x=0;x<N;x++) pixels.push(state.matrix.life[y][x] ? [80,255,120]: [10,20,12]);
+      } else if (state.matrix.pattern==='scroll'){
+        // Simple scrolling mono text using canvas measurement
+        state.matrix.textOffset = (state.matrix.textOffset - (state.running? 60*dt:0)) || 0;
+        const tex = scrollText.value || 'GALGAL HAMAZAL';
+        // Draw temp onto offscreen and sample
+        const c2 = document.createElement('canvas'); const s2 = c2.getContext('2d');
+        c2.width = N*2; c2.height = N*2; s2.clearRect(0,0,c2.width,c2.height);
+        s2.fillStyle = '#fff'; s2.font = `${N}px sans-serif`;
+        s2.textBaseline='top'; s2.fillText(tex, state.matrix.textOffset%(N*2), 0);
+        const img = s2.getImageData(0,0,c2.width,c2.height).data;
+        for(let y=0;y<N;y++){
+          for(let x=0;x<N;x++){
+            const ix = (y*2*c2.width + x*2)*4; const on = img[ix+3] > 10;
+            pixels.push(on? [255,255,255]: [5,5,5]);
+          }
+        }
+      } else if (state.matrix.pattern==='solid'){
+        const [r,g,b] = hexToRgb(state.ring.baseColor);
+        for(let i=0;i<N*N;i++) pixels.push([r*bright,g*bright,b*bright]);
+      }
+
+      // draw pixels
+      let k=0;
+      for(let y=0;y<N;y++){
+        for(let x=0;x<N;x++){
+          const [r,g,b] = pixels[k++] || [0,0,0];
+          ctx.fillStyle = rgbToCss([r*bright,g*bright,b*bright]);
+          ctx.fillRect(ox + x*cell + 1, oy + y*cell + 1, Math.max(1, cell-2), Math.max(1, cell-2));
+        }
+      }
+      // bezel
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2; ctx.strokeRect(ox, oy, size, size);
+    }
+
+    // Touch: swipe to change speed / direction on ring
+    (function(){
+      let active=false, sx=0, sy=0;
+      ringCanvas.addEventListener('pointerdown', e=>{ active=true; sx=e.clientX; sy=e.clientY; ringCanvas.setPointerCapture(e.pointerId); });
+      ringCanvas.addEventListener('pointermove', e=>{
+        if(!active) return; const dx=e.clientX-sx; const dy=e.clientY-sy; if(Math.abs(dx)>20){ state.dir = dx>0? 1:-1; }
+        const spd = clamp(Math.abs(dx)+Math.abs(dy), 0, 400); state.speed = spd; speed.value = String(Math.round(spd)); refreshLabels();
+      });
+      ringCanvas.addEventListener('pointerup', ()=>{ active=false; });
+      ringCanvas.addEventListener('pointercancel', ()=>{ active=false; });
+    })();
+  </script>
+</body>
+</html>
+
