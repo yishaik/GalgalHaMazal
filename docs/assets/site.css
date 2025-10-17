@@ -1,0 +1,37 @@
+:root {
+  --bg: #f7fafc;
+  --card-bg: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+}
+html.dark {
+  --bg: #0b1220;
+  --card-bg: #111827;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --border: #334155;
+}
+body { background-color: var(--bg); color: var(--text); }
+.card { background-color: var(--card-bg); border-color: var(--border); }
+.muted { color: var(--muted); }
+.border-neutral { border-color: var(--border); }
+
+/* Tailwind overrides in dark mode for common classes */
+html.dark .bg-white { background-color: var(--card-bg) !important; }
+html.dark .text-gray-800, html.dark .text-gray-900 { color: var(--text) !important; }
+html.dark .text-gray-700, html.dark .text-gray-600 { color: var(--muted) !important; }
+html.dark .border, html.dark .border-b, html.dark .border-t, html.dark .border-l, html.dark .border-r { border-color: var(--border) !important; }
+html.dark .shadow { box-shadow: 0 6px 24px rgba(0,0,0,0.35) !important; }
+
+/* Header layout tweaks */
+.site-header { position: sticky; top: 0; z-index: 40; backdrop-filter: saturate(180%) blur(6px); background: color-mix(in srgb, var(--card-bg) 92%, transparent); }
+.site-footer { color: var(--muted); }
+
+/* Buttons */
+.btn { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .75rem; border-radius:.5rem; border:1px solid var(--border); }
+.btn:hover { background-color: rgba(148,163,184,.12); }
+
+/* Simulator canvas crispness */
+canvas { image-rendering: optimizeSpeed; image-rendering: pixelated; }
+

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>גלגל המזל – Diagram.jsx Viewer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/site.css" />
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-white border-b">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a class="text-xl font-bold" href="index.html">גלגל המזל</a>
+      <nav class="text-sm">
+        <a class="text-gray-600 hover:text-gray-900" href="docs.html">מסמכים</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-6">
+    <h1 class="text-2xl font-bold mb-3">Viewer ל‑Diagram.jsx (React)</h1>
+    <p class="text-gray-600 mb-4">נטען את הקובץ <code>assets/docs/Diagram.jsx</code>, נקמפל בדפדפן ונציג.</p>
+    <div id="root" class="bg-white rounded-xl shadow p-4"></div>
+  </main>
+
+  <script>
+    (async function(){
+      const res = await fetch('assets/docs/Diagram.jsx');
+      let code = await res.text();
+      // Remove ES export to get a global function
+      code = code.replace(/export\s+default\s+/, '');
+      const wrapped = code + '\n; window.Diagram = Diagram;';
+      const out = Babel.transform(wrapped, { presets: ['react'] }).code;
+      // eslint-disable-next-line no-eval
+      eval(out);
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(React.createElement(window.Diagram));
+    })().catch(err => {
+      document.getElementById('root').innerHTML = '<div class="text-red-600">שגיאה בטעינת התרשים: '+(err && err.message || err)+'</div>';
+    });
+  </script>
+</body>
+</html>
+

@@ -4,9 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>גלגל המזל – דף הבית</title>
+  <link rel="manifest" href="assets/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="description" content="מערכת גלגל המזל – אתר תיעוד ותצוגה: סקירה, תרשימים, רשימת רכיבים, והסברים." />
   <link rel="icon" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="assets/site.css" />
   <style>
     body { font-family: 'Assistant', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     .container { max-width: 1100px; }
@@ -23,9 +28,10 @@
       });
     });
   </script>
+  <script src="assets/site.js" defer></script>
   </head>
 <body class="bg-gray-50 text-gray-800">
-  <header class="bg-white border-b">
+  <header class="bg-white border-b site-header">
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
       <a class="text-xl font-bold" href="index.html">גלגל המזל</a>
       <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="פתח תפריט" aria-expanded="false">
@@ -46,13 +52,17 @@
   </header>
 
   <main class="container mx-auto px-4 py-10">
-    <section class="mb-8">
+    <section class="mb-8 rounded-2xl p-6 bg-gradient-to-br from-sky-50 to-emerald-50 dark:from-[#0b1220] dark:to-[#0b1220] border border-neutral">
       <h1 class="text-3xl font-bold mb-2">גלגל המזל – מיצב טכנולוגי‑אמנותי</h1>
-      <p class="text-gray-700 leading-7">
-        מערכת גלגל המזל כוללת טבעת LED בקוטר ~10 מ׳, מטריצת LED מרכזית,
-        ובקרי מיקרו המפעילים תאורה ואינטראקציות בזמן אמת. האתר מרכז תרשימי מערכת וחיווט,
-        רשימת רכיבים (BOM), והסברים לתכנון, בנייה ותחזוקה.
+      <p class="text-gray-700 dark:text-gray-300 leading-7 mb-4">
+        מערכת כוללת טבעת LED היקפית, מטריצת LED מרכזית ובקרי מיקרו
+        לאינטראקציות בזמן אמת. כאן תמצאו תרשימי מערכת וחיווט, רשימת רכיבים,
+        סימולטור חי, וכן מסמכים מקוריים להקמה ותחזוקה.
       </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="simulator.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">הפעל סימולטור</a>
+        <a href="docs.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border">מעבר למסמכים</a>
+      </div>
     </section>
 
     <section class="grid md:grid-cols-3 gap-6">

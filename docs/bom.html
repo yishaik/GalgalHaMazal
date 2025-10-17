@@ -4,11 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>גלגל המזל – רשימת חלקים (BOM)</title>
+  <link rel="manifest" href="assets/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/site.css" />
   <style> body { font-family: 'Assistant','Segoe UI',Tahoma,Geneva,Verdana,sans-serif } .container{max-width:1100px;} table{border-collapse:collapse} th,td{border-bottom:1px solid #eee;padding:.5rem} </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
-  <header class="bg-white border-b">
+  <header class="bg-white border-b site-header">
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
       <a class="text-xl font-bold" href="index.html">גלגל המזל</a>
       <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="פתח תפריט" aria-expanded="false">
@@ -46,13 +51,13 @@
       </div>
       <div class="overflow-x-auto">
         <table class="min-w-[720px] w-full text-sm" id="bomTable">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-50 sticky top-0 z-10">
             <tr>
-              <th class="text-right">קטגוריה</th>
-              <th class="text-right">חלק/סוג</th>
-              <th class="text-right">מפרט/ערך</th>
-              <th class="text-right">כמות</th>
-              <th class="text-right">הערות</th>
+              <th class="text-right cursor-pointer" data-key="Category">קטגוריה</th>
+              <th class="text-right cursor-pointer" data-key="Part">חלק/סוג</th>
+              <th class="text-right cursor-pointer" data-key="Spec">מפרט/ערך</th>
+              <th class="text-right cursor-pointer" data-key="Quantity">כמות</th>
+              <th class="text-right cursor-pointer" data-key="Notes">הערות</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -64,6 +69,7 @@
   <footer class="border-t bg-white">
     <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© גלגל המזל</div>
   </footer>
+  <script src="assets/site.js" defer></script>
   <script>
     async function loadCSV(url){
       const res = await fetch(url);
@@ -84,9 +90,15 @@
         return {Category, Part, Spec, Quantity, Notes};
       });
     }
+    let sortBy = 'Category'; let sortAsc = true;
     function render(rows){
+      const sorted = rows.slice().sort((a,b)=>{
+        let va=a[sortBy]||'', vb=b[sortBy]||'';
+        if (sortBy==='Quantity') { va = parseFloat(va)||0; vb=parseFloat(vb)||0; }
+        return sortAsc ? (va>vb?1:va<vb?-1:0) : (va>vb?-1:va<vb?1:0);
+      });
       const tbody = document.querySelector('#bomTable tbody');
-      tbody.innerHTML = rows.map(r => `
+      tbody.innerHTML = sorted.map(r => `
         <tr>
           <td>${r.Category||''}</td>
           <td>${r.Part||''}</td>
@@ -98,6 +110,20 @@
     function unique(arr){ return Array.from(new Set(arr)).sort(); }
     (async () => {
       const rows = await loadCSV('assets/data/BOM.csv');
+      // Build summary by category
+      const summary = Object.entries(rows.reduce((acc, r)=>{ acc[r.Category]=(acc[r.Category]||0)+ (parseFloat(r.Quantity)||0); return acc; }, {}))
+                        .map(([k,v])=>({cat:k,qty:v}))
+                        .sort((a,b)=> a.cat.localeCompare(b.cat));
+      // Inject summary UI
+      const summaryBox = document.createElement('div');
+      summaryBox.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mb-4';
+      summary.forEach(s=>{
+        const el = document.createElement('div');
+        el.className = 'border rounded-lg p-2 text-center';
+        el.innerHTML = `<div class="text-xs muted">${s.cat}</div><div class="text-lg font-semibold">${s.qty}</div>`;
+        summaryBox.appendChild(el);
+      });
+      document.querySelector('.bg-white.rounded-xl.shadow.p-4').prepend(summaryBox);
       const catSel = document.getElementById('cat');
       unique(rows.map(r=>r.Category)).forEach(c => {
         const opt = document.createElement('option');
@@ -109,7 +135,12 @@
         const term = (q.value||'').toLowerCase();
         const f = rows.filter(r => (!cat || r.Category===cat) && (!term || Object.values(r).some(v => (v||'').toLowerCase().includes(term))));
         render(f);
+        const params = new URLSearchParams(); if (cat) params.set('cat',cat); if (term) params.set('q',term); history.replaceState(null,'', `?${params.toString()}`);
       }
+      // Restore from URL
+      const params = new URLSearchParams(location.search);
+      if (params.get('cat')) { catSel.value = params.get('cat'); }
+      if (params.get('q')) { q.value = params.get('q'); }
       catSel.addEventListener('change', apply);
       q.addEventListener('input', apply);
       document.getElementById('downloadCsv').addEventListener('click', ()=>{
@@ -117,6 +148,14 @@
         a.href = 'assets/data/BOM.csv';
         a.download = 'BOM.csv';
         a.click();
+      });
+      // Sorting handlers
+      document.querySelectorAll('#bomTable thead th').forEach(th => {
+        th.addEventListener('click', ()=>{
+          const key = th.getAttribute('data-key'); if (!key) return;
+          if (sortBy===key) sortAsc=!sortAsc; else { sortBy=key; sortAsc=true; }
+          apply();
+        });
       });
       render(rows);
     })();

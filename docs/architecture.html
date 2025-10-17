@@ -4,13 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>גלגל המזל – תרשים מערכת (Mermaid)</title>
+  <link rel="manifest" href="assets/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/site.css" />
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <style> body { font-family: 'Assistant','Segoe UI',Tahoma,Geneva,Verdana,sans-serif } .container{max-width:1100px;} </style>
   <script>mermaid.initialize({ startOnLoad: true });</script>
 </head>
 <body class="bg-gray-50 text-gray-800">
-  <header class="bg-white border-b">
+  <header class="bg-white border-b site-header">
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
       <a class="text-xl font-bold" href="index.html">גלגל המזל</a>
       <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="פתח תפריט" aria-expanded="false">
@@ -92,6 +97,7 @@ graph TD
   <footer class="border-t bg-white">
     <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© גלגל המזל</div>
   </footer>
+  <script src="assets/site.js" defer></script>
   <script>
     const btn = document.getElementById('navToggle');
     const nav = document.getElementById('siteNav');
