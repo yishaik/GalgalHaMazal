@@ -75,6 +75,11 @@
             <label class="block text-lg mt-4 mb-2">מהירות <span id="speedLabel" class="text-gray-400"></span></label>
             <input id="speed" type="range" min="0" max="200" value="60" class="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer" />
           </div>
+          <div>
+            <label class="block text-lg mt-4 mb-2">מספר נורות <span id="segmentsSliderLabel" class="text-gray-400"></span></label>
+            <input id="segments" type="range" min="60" max="240" step="10" value="160" class="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer" />
+            <p class="text-sm text-gray-500 mt-2">כוונון התצורה מאפשר הדמיית גלגלים בגדלים שונים.</p>
+          </div>
           <div class="flex items-center gap-4 mt-4">
             <label class="text-lg">כיוון</label>
             <button id="dirBtn" class="px-4 py-2 text-lg rounded-lg border border-gray-600 hover:bg-gray-700">ימין</button>
@@ -136,11 +141,32 @@
             <button id="randomizeBtn" class="px-4 py-2 text-lg rounded-lg border border-gray-600 hover:bg-gray-700">אקראי</button>
             <button id="resetLife" class="px-4 py-2 text-lg rounded-lg border border-gray-600 hover:bg-gray-700">איפוס Life</button>
           </div>
-          <div class="text-sm text-gray-500 mt-4">חיישני Hall: A/B מדומים ב‑0°/180°. סטטוס מעודכן מעל תרשים הטבעת.</div>
+        </div>
+        <div class="text-sm text-gray-500 mt-4">חיישני Hall: A/B מדומים ב‑0°/180°. סטטוס מעודכן מעל תרשים הטבעת.</div>
+      </div>
+    </div>
+
+    <div class="bg-gray-800 rounded-xl shadow-lg p-6 lg:col-span-3">
+      <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div class="flex flex-wrap items-center gap-2">
+          <span id="statusRun" class="status-chip" data-state="running">מצב: פועל</span>
+          <span id="statusDir" class="status-chip">כיוון: ימין</span>
+          <span id="statusSpeed" class="status-chip">מהירות: 60°/ש׳</span>
+          <span id="statusBrightness" class="status-chip">בהירות: 80%</span>
+          <span id="statusSegments" class="status-chip">נורות: 160</span>
+        </div>
+        <div class="text-sm text-gray-400 leading-relaxed">
+          <p class="font-semibold mb-2">קיצורי מקלדת שימושיים</p>
+          <ul class="list-disc list-inside space-y-1 md:space-y-0 md:list-none md:flex md:gap-6">
+            <li><span class="text-yellow-400 font-semibold">רווח</span> – הפעלה / עצירה</li>
+            <li><span class="text-yellow-400 font-semibold">חץ ימני/שמאלי</span> – שינוי מהירות</li>
+            <li><span class="text-yellow-400 font-semibold">חץ מטה</span> – החלפת כיוון</li>
+          </ul>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+</main>
 
   <footer class="border-t bg-white">
     <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© גלגל המזל · סימולטור</div>

@@ -35,6 +35,28 @@ html.dark .shadow { box-shadow: 0 6px 24px rgba(0,0,0,0.35) !important; }
 /* Simulator canvas crispness */
 canvas { image-rendering: optimizeSpeed; image-rendering: pixelated; }
 
+/* Simulator status chips */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  background-color: #374151;
+  color: #f8fafc;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.status-chip[data-state="running"] {
+  background-color: #16a34a;
+  color: #f8fafc;
+}
+
+.status-chip[data-state="paused"] {
+  background-color: #dc2626;
+}
+
 /* New Styles */
 body {
   font-family: 'Assistant', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
