@@ -8,6 +8,9 @@ const speed = document.getElementById('speed');
 const speedLabel = document.getElementById('speedLabel');
 const segments = document.getElementById('segments');
 const segmentsLabel = document.getElementById('segmentsSliderLabel');
+const segmentSize = document.getElementById('segmentSize');
+const segmentSizeLabel = document.getElementById('segmentSizeLabel');
+const showSegments = document.getElementById('showSegments');
 const dirBtn = document.getElementById('dirBtn');
 const playBtn = document.getElementById('playBtn');
 const stopBtn = document.getElementById('stopBtn');
@@ -25,11 +28,13 @@ const statusDir = document.getElementById('statusDir');
 const statusSpeed = document.getElementById('statusSpeed');
 const statusBrightness = document.getElementById('statusBrightness');
 const statusSegments = document.getElementById('statusSegments');
+const statusSegmentSize = document.getElementById('statusSegmentSize');
 
 function refreshLabels(){
   brightnessLabel.textContent = `(${brightness.value}%)`;
   speedLabel.textContent = `(${speed.value}°/ש׳)`;
-  if (segments && segmentsLabel) segmentsLabel.textContent = `(${segments.value})`;
+  if (segments && segmentsLabel) segmentsLabel.textContent = `(${state.ring.segments})`;
+  if (segmentSize && segmentSizeLabel) segmentSizeLabel.textContent = `(${state.ring.segmentSize})`;
   renderStatus();
 }
 
@@ -41,6 +46,10 @@ function renderStatus(){
   if (statusSpeed) statusSpeed.textContent = `מהירות: ${Math.round(state.speed)}°/ש׳`;
   if (statusBrightness) statusBrightness.textContent = `בהירות: ${Math.round(state.brightness * 100)}%`;
   if (statusSegments) statusSegments.textContent = `נורות: ${state.ring.segments}`;
+  if (statusSegmentSize) {
+    const value = state.ring.segmentSize;
+    statusSegmentSize.textContent = state.ring.showSegments ? `מקטע: ${value}` : `מקטע: מוסתר (${value})`;
+  }
 }
 
 export function initUI() {
@@ -49,7 +58,26 @@ export function initUI() {
   if (segments){
     segments.addEventListener('input', ()=>{
       state.ring.segments = Number(segments.value);
+      if (segmentSize){
+        const clamped = Math.max(Number(segmentSize.min)||1, Math.min(state.ring.segmentSize, state.ring.segments));
+        state.ring.segmentSize = clamped;
+        segmentSize.value = String(clamped);
+      }
       initFire();
+      refreshLabels();
+    });
+  }
+  if (segmentSize){
+    segmentSize.addEventListener('input', ()=>{
+      const value = Math.max(Number(segmentSize.min)||1, Math.min(Number(segmentSize.value), state.ring.segments));
+      state.ring.segmentSize = value;
+      segmentSize.value = String(value);
+      refreshLabels();
+    });
+  }
+  if (showSegments){
+    showSegments.addEventListener('change', ()=>{
+      state.ring.showSegments = showSegments.checked;
       refreshLabels();
     });
   }
@@ -63,11 +91,17 @@ export function initUI() {
   matrixPattern.addEventListener('change', ()=> state.matrix.pattern = matrixPattern.value);
   randomizeBtn.addEventListener('click', ()=>{ seedNoise(); initLife(); });
   resetLife.addEventListener('click', ()=> initLife(true));
-  refreshLabels();
   triangle.checked = state.ring.triangle;
   if (segments){
     segments.value = String(state.ring.segments);
   }
+  if (segmentSize){
+    segmentSize.value = String(state.ring.segmentSize);
+  }
+  if (showSegments){
+    showSegments.checked = state.ring.showSegments;
+  }
+  refreshLabels();
 
   // Touch: swipe to change speed / direction on ring
   (function(){
