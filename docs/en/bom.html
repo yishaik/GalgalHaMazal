@@ -1,66 +1,66 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>גלגל המזל – רשימת חלקים (BOM)</title>
-  <link rel="manifest" href="assets/manifest.json" />
+  <title>Wheel of Fortune – Bill of Materials (BOM)</title>
+  <link rel="manifest" href="../assets/manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="assets/site.css" />
+  <link rel="stylesheet" href="../assets/site.css" />
   <style> body { font-family: 'Assistant','Segoe UI',Tahoma,Geneva,Verdana,sans-serif } .container{max-width:1100px;} table{border-collapse:collapse} th,td{border-bottom:1px solid #eee;padding:.5rem} </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
   <header class="bg-white border-b site-header">
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-      <a class="text-xl font-bold" href="index.html">גלגל המזל</a>
-      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="פתח תפריט" aria-expanded="false">
+      <a class="text-xl font-bold" href="index.html">Wheel of Fortune</a>
+      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="Open menu" aria-expanded="false">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
       <nav id="siteNav" class="hidden md:flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-sm">
-        <a class="text-gray-600 hover:text-gray-900" href="index.html">בית</a>
-        <a class="text-gray-600 hover:text-gray-900" href="overview.html">סקירה</a>
-        <a class="text-gray-600 hover:text-gray-900" href="architecture.html">תרשים מערכת</a>
-        <a class="text-gray-600 hover:text-gray-900" href="wiring.html">תרשים חיווט</a>
-        <a class="text-gray-900 font-semibold" href="bom.html">רשימת חלקים</a>
-        <a class="text-gray-600 hover:text-gray-900" href="gallery.html">גלריה</a>
-        <a class="text-gray-600 hover:text-gray-900" href="docs.html">מסמכים</a>
-        <a class="text-gray-600 hover:text-gray-900" href="simulator.html">סימולטור</a>
-        <a class="text-gray-600 hover:text-gray-900" href="missing.html">מה חסר?</a>
+        <a class="text-gray-600 hover:text-gray-900" href="index.html">Home</a>
+        <a class="text-gray-600 hover:text-gray-900" href="overview.html">Overview</a>
+        <a class="text-gray-600 hover:text-gray-900" href="architecture.html">System Diagram</a>
+        <a class="text-gray-600 hover:text-gray-900" href="wiring.html">Wiring Diagram</a>
+        <a class="text-gray-900 font-semibold" href="bom.html">Part List</a>
+        <a class="text-gray-600 hover:text-gray-900" href="gallery.html">Gallery</a>
+        <a class="text-gray-600 hover:text-gray-900" href="docs.html">Documents</a>
+        <a class="text-gray-600 hover:text-gray-900" href="simulator.html">Simulator</a>
+        <a class="text-gray-600 hover:text-gray-900" href="missing.html">What's Missing?</a>
       </nav>
       <div class="hidden md:flex items-center gap-2 text-sm">
-        <a href="en/bom.html" class="text-gray-600 hover:text-gray-900">EN</a>
+        <a href="../bom.html" class="text-gray-600 hover:text-gray-900">עב</a>
       </div>
     </div>
   </header>
 
   <main class="container mx-auto px-4 py-10 space-y-6">
-    <h1 class="text-2xl font-bold">רשימת חלקים (BOM)</h1>
+    <h1 class="text-2xl font-bold">Bill of Materials (BOM)</h1>
     <div class="bg-white rounded-xl shadow p-4">
       <div class="flex flex-wrap gap-4 mb-4 items-center">
         <label class="text-sm">
-          קטגוריה:
+          Category:
           <select id="cat" class="border rounded px-2 py-1 text-sm">
-            <option value="">הכל</option>
+            <option value="">All</option>
           </select>
         </label>
         <label class="text-sm">
-          חיפוש:
-          <input id="q" class="border rounded px-2 py-1 text-sm" placeholder="מילה חופשית" />
+          Search:
+          <input id="q" class="border rounded px-2 py-1 text-sm" placeholder="Free text" />
         </label>
-        <button id="downloadCsv" class="ml-auto bg-gray-100 hover:bg-gray-200 rounded px-3 py-1 text-sm">הורד CSV</button>
+        <button id="downloadCsv" class="ml-auto bg-gray-100 hover:bg-gray-200 rounded px-3 py-1 text-sm">Download CSV</button>
       </div>
       <div class="overflow-x-auto">
         <table class="min-w-[720px] w-full text-sm" id="bomTable">
           <thead class="bg-gray-50 sticky top-0 z-10">
             <tr>
-              <th class="text-right cursor-pointer" data-key="Category">קטגוריה</th>
-              <th class="text-right cursor-pointer" data-key="Part">חלק/סוג</th>
-              <th class="text-right cursor-pointer" data-key="Spec">מפרט/ערך</th>
-              <th class="text-right cursor-pointer" data-key="Quantity">כמות</th>
-              <th class="text-right cursor-pointer" data-key="Notes">הערות</th>
+              <th class="text-left cursor-pointer" data-key="Category">Category</th>
+              <th class="text-left cursor-pointer" data-key="Part">Part/Type</th>
+              <th class="text-left cursor-pointer" data-key="Specification">Specification/Value</th>
+              <th class="text-left cursor-pointer" data-key="Quantity">Quantity</th>
+              <th class="text-left cursor-pointer" data-key="Notes">Notes</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -70,15 +70,16 @@
   </main>
 
   <footer class="border-t bg-white">
-    <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© גלגל המזל</div>
+    <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© Wheel of Fortune</div>
   </footer>
-  <script src="assets/site.js" defer></script>
+  <script src="../assets/site.js" defer></script>
   <script>
     async function loadCSV(url){
       const res = await fetch(url);
       const text = await res.text();
       const lines = text.trim().split(/\r?\n/);
-      const [header, ...rows] = lines;
+      const [headerLine, ...rows] = lines;
+      const headers = headerLine.split(',').map(h => h.trim());
       return rows.map(line => {
         const parts = [];
         let cur = '', inQuote = false;
@@ -89,8 +90,11 @@
           else cur += ch;
         }
         parts.push(cur);
-        const [Category, Part, Spec, Quantity, Notes] = parts.map(s=>s.replace(/^"|"$/g,''));
-        return {Category, Part, Spec, Quantity, Notes};
+        const rowData = {};
+        headers.forEach((header, i) => {
+            rowData[header] = (parts[i] || '').replace(/^"|"$/g,'');
+        });
+        return rowData;
       });
     }
     let sortBy = 'Category'; let sortAsc = true;
@@ -104,29 +108,15 @@
       tbody.innerHTML = sorted.map(r => `
         <tr>
           <td>${r.Category||''}</td>
-          <td>${r.Part||''}</td>
-          <td>${r.Spec||''}</td>
+          <td>${r['Part/Type']||''}</td>
+          <td>${r['Specification/Value']||''}</td>
           <td>${r.Quantity||''}</td>
           <td>${r.Notes||''}</td>
         </tr>`).join('');
     }
     function unique(arr){ return Array.from(new Set(arr)).sort(); }
     (async () => {
-      const rows = await loadCSV('assets/data/BOM.csv');
-      // Build summary by category
-      const summary = Object.entries(rows.reduce((acc, r)=>{ acc[r.Category]=(acc[r.Category]||0)+ (parseFloat(r.Quantity)||0); return acc; }, {}))
-                        .map(([k,v])=>({cat:k,qty:v}))
-                        .sort((a,b)=> a.cat.localeCompare(b.cat));
-      // Inject summary UI
-      const summaryBox = document.createElement('div');
-      summaryBox.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mb-4';
-      summary.forEach(s=>{
-        const el = document.createElement('div');
-        el.className = 'border rounded-lg p-2 text-center';
-        el.innerHTML = `<div class="text-xs muted">${s.cat}</div><div class="text-lg font-semibold">${s.qty}</div>`;
-        summaryBox.appendChild(el);
-      });
-      document.querySelector('.bg-white.rounded-xl.shadow.p-4').prepend(summaryBox);
+      const rows = await loadCSV('BOM.csv');
       const catSel = document.getElementById('cat');
       unique(rows.map(r=>r.Category)).forEach(c => {
         const opt = document.createElement('option');
@@ -140,7 +130,6 @@
         render(f);
         const params = new URLSearchParams(); if (cat) params.set('cat',cat); if (term) params.set('q',term); history.replaceState(null,'', `?${params.toString()}`);
       }
-      // Restore from URL
       const params = new URLSearchParams(location.search);
       if (params.get('cat')) { catSel.value = params.get('cat'); }
       if (params.get('q')) { q.value = params.get('q'); }
@@ -148,11 +137,10 @@
       q.addEventListener('input', apply);
       document.getElementById('downloadCsv').addEventListener('click', ()=>{
         const a = document.createElement('a');
-        a.href = 'assets/data/BOM.csv';
+        a.href = 'BOM.csv';
         a.download = 'BOM.csv';
         a.click();
       });
-      // Sorting handlers
       document.querySelectorAll('#bomTable thead th').forEach(th => {
         th.addEventListener('click', ()=>{
           const key = th.getAttribute('data-key'); if (!key) return;

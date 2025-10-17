@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wheel of Fortune – System Diagram (Mermaid)</title>
+  <link rel="manifest" href="../assets/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/site.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style> body { font-family: 'Assistant','Segoe UI',Tahoma,Geneva,Verdana,sans-serif } .container{max-width:1100px;} </style>
+  <script>mermaid.initialize({ startOnLoad: true });</script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-white border-b site-header">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a class="text-xl font-bold" href="index.html">Wheel of Fortune</a>
+      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="Open menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <nav id="siteNav" class="hidden md:flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-sm">
+        <a class="text-gray-600 hover:text-gray-900" href="index.html">Home</a>
+        <a class="text-gray-600 hover:text-gray-900" href="overview.html">Overview</a>
+        <a class="text-gray-900 font-semibold" href="architecture.html">System Diagram</a>
+        <a class="text-gray-600 hover:text-gray-900" href="wiring.html">Wiring Diagram</a>
+        <a class="text-gray-600 hover:text-gray-900" href="bom.html">Part List</a>
+        <a class="text-gray-600 hover:text-gray-900" href="gallery.html">Gallery</a>
+        <a class="text-gray-600 hover:text-gray-900" href="docs.html">Documents</a>
+        <a class="text-gray-600 hover:text-gray-900" href="simulator.html">Simulator</a>
+        <a class="text-gray-600 hover:text-gray-900" href="missing.html">What's Missing?</a>
+      </nav>
+      <div class="hidden md:flex items-center gap-2 text-sm">
+        <a href="../architecture.html" class="text-gray-600 hover:text-gray-900">עב</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10 space-y-6">
+    <h1 class="text-2xl font-bold">System Diagram</h1>
+    <p class="text-gray-700">A Mermaid diagram describing the four sub-systems and their connections.</p>
+
+    <div class="bg-white rounded-xl shadow p-4 overflow-x-auto">
+      <div class="mermaid min-w-[720px]">
+graph TD
+  classDef box fill:#fff,stroke:#333,stroke-width:2px,border-radius:8px;
+  classDef power fill:#ffdddd,stroke:#c0392b,stroke-width:2px;
+  classDef controller fill:#ddeeff,stroke:#2980b9,stroke-width:2px;
+  classDef component fill:#e8f8f5,stroke:#16a085,stroke-width:2px;
+
+  subgraph S1 [📦 1. Control Box - Power & Safety]
+    direction LR
+    MAINS[("🔌 230V AC Inlet")]:::box;
+    FUSE_AC["🛡️ Main Fuse 2A"]:::box;
+    ESTOP["⛔ Emergency Stop"]:::box;
+    PSU24["⚡ 24V 15A PSU"]:::power;
+    PSU5["⚡ 5V 60A PSU"]:::power;
+    MAINS --> FUSE_AC --> ESTOP --> PSU24;
+    ESTOP --> PSU5;
+  end
+
+  subgraph S2 [📦 2. Control Box - Power Distribution]
+    direction LR
+    FUSE24["🛡️ 24V Fuse T-10A"]:::box;
+    FUSE5["🛡️ 5V Fuse T-15A"]:::box;
+    TB24["24V Terminal Block"]:::box;
+    TB5["5V Terminal Block"]:::box;
+    PSU24 --> FUSE24 --> TB24;
+    PSU5 --> FUSE5 --> TB5;
+  end
+
+  subgraph S3 [📦 3. Control Box - Control Board]
+    Arduino["🤖 Arduino Uno"]:::controller;
+    ESP32S["🤖 ESP32 Sensors"]:::controller;
+    ESP32M["🤖 ESP32 Matrix"]:::controller;
+    TB5 -- "+5V" --> Arduino & ESP32S & ESP32M;
+  end
+
+  subgraph S4 [🎡 4. Wheel of Fortune - Components]
+    LEDR["💡 LED Ring WS2814 24V"]:::component;
+    MATRIX["🟩 32×32 LED Matrix WS2812B"]:::component;
+    SENSORS["🔬 Hall Sensors"]:::component;
+  end
+
+  CONN_24V[(IP65 24V Connector)];
+  CONN_5V[(IP65 5V Connector)];
+  CONN_DATA[(IP65 DATA Connector)];
+  CONN_SENSOR[(IP65 SENSOR Connector)];
+
+  TB24 --> CONN_24V --> LEDR;
+  TB5 --> CONN_5V --> MATRIX;
+  Arduino --> CONN_DATA --> LEDR;
+  ESP32S --> CONN_SENSOR --> SENSORS;
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t bg-white">
+    <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© Wheel of Fortune</div>
+  </footer>
+  <script src="../assets/site.js" defer></script>
+  <script>
+    const btn = document.getElementById('navToggle');
+    const nav = document.getElementById('siteNav');
+    if (btn && nav) btn.addEventListener('click', ()=> nav.classList.toggle('hidden'));
+  </script>
+</body>
+</html>
