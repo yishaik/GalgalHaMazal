@@ -86,6 +86,25 @@ export function drawRing(){
     ctx.stroke();
   }
 
+  if (state.ring.showSegments){
+    const groupSize = Math.max(1, Math.round(state.ring.segmentSize));
+    const groups = Math.max(1, Math.floor(seg / groupSize));
+    const per = 2*Math.PI/seg;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(startAngle + state.ring.angle*Math.PI/180);
+    ctx.lineWidth = 2*dpr;
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    for(let g=0; g<groups; g++){
+      const ang = g * groupSize * per;
+      ctx.beginPath();
+      ctx.moveTo((R - thickness/2) * Math.cos(ang), (R - thickness/2) * Math.sin(ang));
+      ctx.lineTo((R + thickness/2) * Math.cos(ang), (R + thickness/2) * Math.sin(ang));
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
   // Triangle indicator at top when enabled
   if (state.ring.triangle){
     ctx.save();

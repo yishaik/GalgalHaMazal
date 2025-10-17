@@ -80,6 +80,14 @@
             <input id="segments" type="range" min="60" max="240" step="10" value="160" class="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer" />
             <p class="text-sm text-gray-500 mt-2">כוונון התצורה מאפשר הדמיית גלגלים בגדלים שונים.</p>
           </div>
+          <div>
+            <label class="block text-lg mt-4 mb-2">חלוקת מקטעים <span id="segmentSizeLabel" class="text-gray-400"></span></label>
+            <input id="segmentSize" type="range" min="4" max="40" step="1" value="16" class="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer" />
+            <div class="flex items-center gap-3 mt-3">
+              <input id="showSegments" type="checkbox" class="w-5 h-5" checked />
+              <label for="showSegments" class="text-sm text-gray-300">הצג גבולות מקטע (נרות לפרס)</label>
+            </div>
+          </div>
           <div class="flex items-center gap-4 mt-4">
             <label class="text-lg">כיוון</label>
             <button id="dirBtn" class="px-4 py-2 text-lg rounded-lg border border-gray-600 hover:bg-gray-700">ימין</button>
@@ -154,6 +162,7 @@
           <span id="statusSpeed" class="status-chip">מהירות: 60°/ש׳</span>
           <span id="statusBrightness" class="status-chip">בהירות: 80%</span>
           <span id="statusSegments" class="status-chip">נורות: 160</span>
+          <span id="statusSegmentSize" class="status-chip">מקטע: 16</span>
         </div>
         <div class="text-sm text-gray-400 leading-relaxed">
           <p class="font-semibold mb-2">קיצורי מקלדת שימושיים</p>
