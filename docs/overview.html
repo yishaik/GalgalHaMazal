@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>גלגל המזל – סקירה</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style> body { font-family: 'Assistant', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; } .container{max-width:1100px;} </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-white border-b">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a class="text-xl font-bold" href="index.html">גלגל המזל</a>
+      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="פתח תפריט" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <nav id="siteNav" class="hidden md:flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-sm">
+        <a class="text-gray-600 hover:text-gray-900" href="index.html">בית</a>
+        <a class="text-gray-900 font-semibold" href="overview.html">סקירה</a>
+        <a class="text-gray-600 hover:text-gray-900" href="architecture.html">תרשים מערכת</a>
+        <a class="text-gray-600 hover:text-gray-900" href="wiring.html">תרשים חיווט</a>
+        <a class="text-gray-600 hover:text-gray-900" href="bom.html">רשימת חלקים</a>
+        <a class="text-gray-600 hover:text-gray-900" href="gallery.html">גלריה</a>
+        <a class="text-gray-600 hover:text-gray-900" href="docs.html">מסמכים</a>
+        <a class="text-gray-600 hover:text-gray-900" href="missing.html">מה חסר?</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10 space-y-8">
+    <section class="bg-white rounded-xl p-6 shadow">
+      <h1 class="text-2xl font-bold mb-2">סקירה כללית</h1>
+      <p class="text-gray-700 leading-7">
+        המערכת מחולקת לארבע תתי‑מערכות עיקריות: (1) קופסת הבקרה – חשמל ובטיחות,
+        (2) קופסת הבקרה – פיצול מתחים, (3) לוח הבקרה האלקטרוני, (4) רכיבי הגלגל –
+        טבעת LED, מטריצה וחיישנים. התכנון מדגיש בטיחות, גמישות תחזוקה, ואיכות חשמלית
+        (הזרקות כוח מרובות, GND משותף עבה, וסימון צבעים ברור).
+      </p>
+    </section>
+
+    <section class="grid md:grid-cols-2 gap-6">
+      <article class="bg-white rounded-xl p-6 shadow">
+        <h2 class="text-xl font-semibold mb-2">קופסת הבקרה – חשמל ובטיחות</h2>
+        <ul class="list-disc pr-6 text-gray-700 leading-7">
+          <li>כניסת IEC C14, פיוזים ראשיים ומפסק חירום.</li>
+          <li>שני ספקי כוח נפרדים: 24V (טבעת WS2814) ו‑5V (מטריצה/בקרים).</li>
+          <li>הפרדת מסילות מתח, GND משותף לכל המערכת.</li>
+        </ul>
+      </article>
+      <article class="bg-white rounded-xl p-6 shadow">
+        <h2 class="text-xl font-semibold mb-2">קופסת הבקרה – פיצול מתחים</h2>
+        <ul class="list-disc pr-6 text-gray-700 leading-7">
+          <li>פסי הפצה (Bus Bars) ל‑24V, 5V, ו‑GND.</li>
+          <li>פיוזים בקצה ספק לפני יציאה לפס ההפצה.</li>
+          <li>מחברי שדה עמידים (IP65) לחלוקה לכבלים עבים.</li>
+        </ul>
+      </article>
+      <article class="bg-white rounded-xl p-6 shadow">
+        <h2 class="text-xl font-semibold mb-2">לוח הבקרה האלקטרוני</h2>
+        <ul class="list-disc pr-6 text-gray-700 leading-7">
+          <li>Arduino Uno לטבעת LED, ESP32 לחיישנים ו‑ESP32 למטריצה.</li>
+          <li>נגדי Pull‑up/סידרה, קבלי פילטור ופריסת GND קפדנית.</li>
+          <li>קשר נתונים קצר ומסוכך (WS281x DATA) לצימוד רעשים.</li>
+        </ul>
+      </article>
+      <article class="bg-white rounded-xl p-6 shadow">
+        <h2 class="text-xl font-semibold mb-2">רכיבי הגלגל</h2>
+        <ul class="list-disc pr-6 text-gray-700 leading-7">
+          <li>טבעת WS2814 24V עם 5 נק׳ הזרקת כוח לאורך היקף ~10 מ׳.</li>
+          <li>מטריצת LED 32×32 (WS2812B 5V) במרכז.</li>
+          <li>חיישני Hall לזיהוי מהירות/כיוון ומשולש אור לעצירה.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="bg-white rounded-xl p-6 shadow">
+      <h2 class="text-xl font-semibold mb-3">הנחיות חיווט קצרות</h2>
+      <ul class="list-disc pr-6 text-gray-700 leading-7">
+        <li>קצרו את קווי DATA ככל האפשר (≤1 מ׳), סמנו בצבע ירוק.</li>
+        <li>הקפידו על הזרקות כוח כל ~2 מ׳ לטבעת; V+ אדום, GND שחור.</li>
+        <li>שמרו GND משותף עבה (2.5 ממ²) לכל מסילות המתח.</li>
+        <li>הוסיפו נגד 330Ω בטור לקו DATA וקבל 1000µF על 5V במטריצה.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="border-t bg-white">
+    <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© גלגל המזל</div>
+  </footer>
+  <script>
+    const btn = document.getElementById('navToggle');
+    const nav = document.getElementById('siteNav');
+    if (btn && nav) btn.addEventListener('click', ()=> nav.classList.toggle('hidden'));
+  </script>
+</body>
+</html>

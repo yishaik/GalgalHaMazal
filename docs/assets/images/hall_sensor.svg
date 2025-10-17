@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <rect width="100%" height="100%" fill="#f8fafc"/>
+  <rect x="120" y="80" width="400" height="200" rx="10" fill="#111827"/>
+  <rect x="160" y="110" width="140" height="80" rx="6" fill="#1f2937"/>
+  <text x="230" y="155" font-size="20" text-anchor="middle" fill="#e5e7eb">A3144</text>
+  <g>
+    <rect x="180" y="210" width="16" height="40" fill="#9ca3af"/>
+    <rect x="220" y="210" width="16" height="40" fill="#9ca3af"/>
+    <rect x="260" y="210" width="16" height="40" fill="#9ca3af"/>
+    <text x="188" y="268" font-size="12" text-anchor="middle" fill="#475569">VCC</text>
+    <text x="228" y="268" font-size="12" text-anchor="middle" fill="#475569">GND</text>
+    <text x="268" y="268" font-size="12" text-anchor="middle" fill="#475569">SIG</text>
+  </g>
+  <text x="320" y="320" font-size="24" text-anchor="middle" fill="#334155">Hall Sensor (ייצוג סכמטי)</text>
+</svg>
+

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>תרשים חיווט צבעוני - גלגל המזל</title>
+<style>
+  body {
+    font-family: 'Assistant', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  h1 { text-align: center; color: #2c3e50; font-size: 2.0em; margin-bottom: 10px; }
+  .legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 30px; padding: 15px; background-color: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 1200px; box-sizing: border-box; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 1.0em; }
+  .legend-color { width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.2); }
+  .mermaid { width: 100%; max-width: 1200px; }
+  a.home { position: fixed; top: 12px; left: 12px; background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 6px 10px; color: #222; text-decoration: none; font-size: 14px; }
+  a.home:hover{ background:#f8f8f8 }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+<a class="home" href="../../index.html">← חזרה לאתר</a>
+
+<h1>⚙️ תרשים חיווט ויזואלי - מערכת גלגל המזל ⚙️</h1>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-color" style="background-color: #e74c3c;"></div><span>מתח 24V</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #3498db;"></div><span>מתח 5V</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #2c3e50;"></div><span>אדמה (GND)</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #2ecc71;"></div><span>קו נתונים (DATA)</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #f39c12;"></div><span>אות חיישן (SENSOR)</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #7c3aed;"></div><span>חיישני Hall</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #3b82f6;"></div><span>UART/I²C</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #111827;"></div><span>GND משותף</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #22c55e;"></div><span>DATA WS281x</span></div>
+</div>
+
+<div class="mermaid">
+graph TD
+    classDef box fill:#fff,stroke:#333,stroke-width:2px,border-radius:8px;
+    classDef power fill:#ffdddd,stroke:#c0392b,stroke-width:2px;
+    classDef controller fill:#ddeeff,stroke:#2980b9,stroke-width:2px;
+    classDef component fill:#e8f8f5,stroke:#16a085,stroke-width:2px;
+
+    subgraph S1 [📦 1. קופסת הבקרה - חשמל ובטיחות]
+        direction LR
+        MAINS[("🔌 שקע חשמל 230V AC")]:::box;
+        FUSE_AC["🛡️ פיוז ראשי 2A"]:::box;
+        ESTOP["⛔ מפסק חירום"]:::box;
+        PSU24["⚡ ספק כוח 24V 15A"]:::power;
+        PSU5["⚡ ספק כוח 5V 60A"]:::power;
+        MAINS --> FUSE_AC --> ESTOP;
+        ESTOP --> PSU24 & PSU5;
+    end
+
+    subgraph S2 [📦 2. קופסת הבקרה - פיצול מתחים]
+        direction LR
+        FUSE24["🛡️ פיוז 24V T-10A (Slow)"]:::box;
+        FUSE5["🛡️ פיוז 5V T-15A (Slow)"]:::box;
+        TB24["פס חיבורים 24V"]:::box;
+        TB5["פס חיבורים 5V"]:::box;
+        PSU24 --> FUSE24 --> TB24;
+        PSU5 --> FUSE5 --> TB5;
+    end
+
+    subgraph S3 [📦 3. קופסת הבקרה - לוח הבקרה]
+        Arduino["🤖 Arduino Uno"]:::controller;
+        ESP32S["🤖 ESP32 - חיישנים"]:::controller;
+        ESP32M["🤖 ESP32 - מטריצה"]:::controller;
+        TB5 -- "+5V" --> Arduino & ESP32S & ESP32M;
+    end
+
+    subgraph S4 [🎡 4. גלגל המזל - רכיבים]
+        LEDR["💡 טבעת LED WS2814 24V"]:::component;
+        MATRIX["🟩 מטריצת LED 32×32 WS2812B"]:::component;
+        SENSORS["🔬 חיישני Hall"]:::component;
+    end
+
+    CONN_24V[("מחבר IP65 24V")]:::box;
+    CONN_5V[("מחבר IP65 5V")]:::box;
+    CONN_DATA[("מחבר IP65 DATA")]:::box;
+    CONN_SENSOR[("מחבר IP65 SENSOR")]:::box;
+
+    TB24 --> CONN_24V --> LEDR;
+    TB5 --> CONN_5V --> MATRIX;
+    Arduino --> CONN_DATA --> LEDR;
+    ESP32S --> CONN_SENSOR --> SENSORS;
+</div>
+
+<script> mermaid.initialize({ startOnLoad: true }); </script>
+
+</body>
+</html>
+

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>גלגל המזל – מה חסר?</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style> body{font-family:'Assistant','Segoe UI',Tahoma,Geneva,Verdana,sans-serif}.container{max-width:1100px} </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-white border-b">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a class="text-xl font-bold" href="index.html">גלגל המזל</a>
+      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="פתח תפריט" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <nav id="siteNav" class="hidden md:flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-sm">
+        <a class="text-gray-600 hover:text-gray-900" href="index.html">בית</a>
+        <a class="text-gray-600 hover:text-gray-900" href="overview.html">סקירה</a>
+        <a class="text-gray-600 hover:text-gray-900" href="architecture.html">תרשים מערכת</a>
+        <a class="text-gray-600 hover:text-gray-900" href="wiring.html">תרשים חיווט</a>
+        <a class="text-gray-600 hover:text-gray-900" href="bom.html">רשימת חלקים</a>
+        <a class="text-gray-600 hover:text-gray-900" href="gallery.html">גלריה</a>
+        <a class="text-gray-600 hover:text-gray-900" href="docs.html">מסמכים</a>
+        <a class="text-gray-900 font-semibold" href="missing.html">מה חסר?</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10 space-y-8">
+    <section class="bg-white rounded-xl shadow p-6">
+      <h1 class="text-2xl font-bold mb-2">מה חסר ומה הלאה</h1>
+      <p class="text-gray-700 mb-4">רשימת משימות והשלמות להשלמת התיעוד וההדגמות.</p>
+      <ul class="list-disc pr-6 text-gray-700 leading-7">
+        <li>החלפת תמונות ה‑SVG בגלריה בצילומים אמיתיים של הרכיבים/ההתקנה.</li>
+        <li>הטמעת <b>Diagram.jsx</b> כתרשים אינטראקטיבי (נדרש Bundler או הטמעה עם CDN ל‑React).</li>
+        <li>הוספת קוד/קושחה (אם קיים) לבקרי Arduino/ESP32 + פין‑מפות.</li>
+        <li>מדריך הרכבה מפורט עם תמונות: קופסאות בקרה, חיווט, הזרקות כוח.</li>
+        <li>נהלי בטיחות חשמלית: זרמים, חתכי מוליכים, הארקה, פיוזים.</li>
+        <li>תהליך בדיקות וכיול: בדיקת חיישני Hall, בדיקת מטריצה וטבעת, בדיקת נחשולי מתח.</li>
+        <li>קישורי ספקים ומק"טים עבור רכיבי ה‑BOM (אופציונלי לפי זמינות).</li>
+        <li>קבצי שרטוט/מכניקה (DXF/STL) למסגרת, נקודות קיבוע וקופסאות.</li>
+        <li>גרסה באנגלית של התיעוד (אם נדרש לקהל בינלאומי).</li>
+      </ul>
+    </section>
+
+    <section class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-xl font-semibold mb-2">איך אפשר לעזור?</h2>
+      <p class="text-gray-700">שלחו תמונות, קבצים או קישורים – ואשלב אותם באתר.</p>
+    </section>
+  </main>
+
+  <footer class="border-t bg-white">
+    <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© גלגל המזל</div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('navToggle');
+    const nav = document.getElementById('siteNav');
+    if (btn && nav) btn.addEventListener('click', ()=> nav.classList.toggle('hidden'));
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <rect width="100%" height="100%" fill="#f8fafc"/>
+  <circle cx="320" cy="160" r="110" fill="none" stroke="#e5e7eb" stroke-width="18"/>
+  <g>
+    <circle cx="320" cy="160" r="110" fill="none" stroke="#f59e0b" stroke-width="10" stroke-dasharray="6 18"/>
+  </g>
+  <text x="320" y="320" font-size="24" text-anchor="middle" fill="#334155">WS2814 LED Ring (ייצוג סכמטי)</text>
+</svg>
+

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>גלגל המזל – תרשים חיווט (SVG)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style> body { font-family: 'Assistant','Segoe UI',Tahoma,Geneva,Verdana,sans-serif } .container{max-width:1100px;} svg text{font-family: 'Assistant','Segoe UI',Tahoma,Geneva,Verdana,sans-serif} </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-white border-b">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a class="text-xl font-bold" href="index.html">גלגל המזל</a>
+      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="פתח תפריט" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <nav id="siteNav" class="hidden md:flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-sm">
+        <a class="text-gray-600 hover:text-gray-900" href="index.html">בית</a>
+        <a class="text-gray-600 hover:text-gray-900" href="overview.html">סקירה</a>
+        <a class="text-gray-600 hover:text-gray-900" href="architecture.html">תרשים מערכת</a>
+        <a class="text-gray-900 font-semibold" href="wiring.html">תרשים חיווט</a>
+        <a class="text-gray-600 hover:text-gray-900" href="bom.html">רשימת חלקים</a>
+        <a class="text-gray-600 hover:text-gray-900" href="gallery.html">גלריה</a>
+        <a class="text-gray-600 hover:text-gray-900" href="docs.html">מסמכים</a>
+        <a class="text-gray-600 hover:text-gray-900" href="missing.html">מה חסר?</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10 space-y-6">
+    <h1 class="text-2xl font-bold">תרשים חיווט</h1>
+    <p class="text-gray-700">מפה סכמטית להמחשת חיבורים, עבי חוטים והזרקות כוח.</p>
+
+    <div class="bg-white rounded-xl shadow p-4 overflow-auto">
+      <svg viewBox="0 0 1200 740" class="w-full h-auto">
+        <rect x="0" y="0" width="1200" height="740" fill="#ffffff"/>
+
+        <!-- ארון בקרה + ספקים -->
+        <g>
+          <rect x="40" y="60" width="380" height="220" rx="16" fill="#f8fafc" stroke="#94a3b8"/>
+          <text x="230" y="85" text-anchor="middle" font-size="16" font-weight="700">ארון בקרה</text>
+
+          <rect x="60" y="110" width="90" height="36" rx="6" fill="#111827"/>
+          <text x="105" y="133" text-anchor="middle" font-size="11" fill="#ffffff">IEC C14</text>
+
+          <rect x="170" y="108" width="70" height="40" rx="6" fill="#fee2e2" stroke="#ef4444"/>
+          <text x="205" y="132" text-anchor="middle" font-size="11">פיוזים 5×20</text>
+          <text x="205" y="146" text-anchor="middle" font-size="10" fill="#ef4444">T‑10A (24V) · T‑15A (5V)</text>
+
+          <rect x="60" y="170" width="160" height="90" rx="10" fill="#e0f2fe" stroke="#0284c7"/>
+          <text x="140" y="195" text-anchor="middle" font-size="12" font-weight="700">ספק 24V</text>
+          <text x="140" y="214" text-anchor="middle" font-size="10">300W</text>
+          <text x="140" y="232" text-anchor="middle" font-size="10">יציאה: +24V / GND</text>
+
+          <rect x="240" y="170" width="160" height="90" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+          <text x="320" y="195" text-anchor="middle" font-size="12" font-weight="700">ספק 5V</text>
+          <text x="320" y="214" text-anchor="middle" font-size="10">60A</text>
+          <text x="320" y="232" text-anchor="middle" font-size="10">יציאה: +5V / GND</text>
+
+          <rect x="40" y="310" width="380" height="80" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+          <text x="230" y="330" text-anchor="middle" font-size="12" font-weight="700">פס הפצה מרכזי</text>
+          <text x="230" y="350" text-anchor="middle" font-size="10">24V, 5V, GND משותף (GND 2.5 מ"מ²)</text>
+
+          <line x1="140" y1="260" x2="140" y2="310" stroke="#ef4444" stroke-width="4"/>
+          <line x1="120" y1="260" x2="120" y2="310" stroke="#111827" stroke-width="4"/>
+          <line x1="320" y1="260" x2="320" y2="310" stroke="#ef4444" stroke-width="4"/>
+          <line x1="300" y1="260" x2="300" y2="310" stroke="#111827" stroke-width="4"/>
+        </g>
+
+        <!-- יציאות GX מהפס -->
+        <g>
+          <text x="60" y="420" font-size="12" font-weight="700">יציאות GX16‑3 מפס ההפצה</text>
+          <rect x="60" y="430" width="160" height="70" rx="10" fill="#fff7ed" stroke="#fb923c"/>
+          <text x="140" y="450" text-anchor="middle" font-size="12">GX16‑3 → טבעת 24V</text>
+          <text x="140" y="468" text-anchor="middle" font-size="10">[1:+24V | 2:GND | 3:DATA]</text>
+        </g>
+
+        <!-- מטריצה מרכזית -->
+        <g>
+          <rect x="780" y="380" width="200" height="140" rx="10" fill="#f0f9ff" stroke="#38bdf8"/>
+          <text x="880" y="410" text-anchor="middle" font-size="14" font-weight="700">מטריצת LED 32×32</text>
+          <text x="880" y="430" text-anchor="middle" font-size="11">5V · WS2812B</text>
+        </g>
+
+        <!-- טבעת LED היקפית -->
+        <g>
+          <circle cx="880" cy="220" r="90" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+          <text x="880" y="210" text-anchor="middle" font-size="12">טבעת LED WS2814</text>
+          <text x="880" y="228" text-anchor="middle" font-size="11">היקף ~10 מ׳ · 5 נק׳ הזרקה</text>
+        </g>
+
+        <!-- קווים לטבעת ולמטריצה (כוח/אדמה/דאטה) -->
+        <g>
+          <path d="M 420 465 C 540 520, 660 520, 780 430" stroke="#ef4444" stroke-width="4" fill="none"/>
+          <path d="M 410 470 C 530 525, 650 525, 770 435" stroke="#111827" stroke-width="4" fill="none"/>
+          <path d="M 400 475 C 520 530, 640 530, 760 440" stroke="#22c55e" stroke-width="3" stroke-dasharray="6 4" fill="none"/>
+          <circle cx="760" cy="440" r="8" fill="#eab308" stroke="#713f12"/>
+          <text x="760" y="458" font-size="11" text-anchor="middle">GX16‑3 למטריצה</text>
+        </g>
+
+        <!-- חיישני Hall -->
+        <g>
+          <circle cx="1040" cy="200" r="12" fill="#ede9fe" stroke="#7c3aed"/>
+          <text x="1040" y="190" text-anchor="middle" font-size="10">Hall A</text>
+          <path d="M 1040 200 C 960 220, 880 240, 800 260" stroke="#7c3aed" stroke-width="2" fill="none"/>
+          <text x="942" y="230" font-size="10" fill="#7c3aed">3×22‑24AWG מסוכך · ~2 מ׳</text>
+
+          <circle cx="1040" cy="520" r="12" fill="#ede9fe" stroke="#7c3aed"/>
+          <text x="1040" y="510" text-anchor="middle" font-size="10">Hall B</text>
+          <path d="M 1040 520 C 960 500, 880 480, 800 460" stroke="#7c3aed" stroke-width="2" fill="none"/>
+        </g>
+
+        <!-- מקרא צבעים -->
+        <g>
+          <rect x="40" y="540" width="380" height="140" rx="12" fill="#ffffff" stroke="#94a3b8"/>
+          <text x="230" y="562" text-anchor="middle" font-size="13" font-weight="700">מקרא צבעים וחוטים</text>
+          <line x1="60" y1="585" x2="100" y2="585" stroke="#ef4444" stroke-width="4"/>
+          <text x="115" y="589" font-size="12">V+ 5V / 24V · 1.5–2.5 מ"מ² (AWG16–14)</text>
+          <line x1="60" y1="605" x2="100" y2="605" stroke="#111827" stroke-width="4"/>
+          <text x="115" y="609" font-size="12">GND משותף · 2.5 מ"מ² לפס הראשי</text>
+          <line x1="60" y1="625" x2="100" y2="625" stroke="#22c55e" stroke-width="3" stroke-dasharray="6 4"/>
+          <text x="115" y="629" font-size="12">DATA WS281x · 22AWG מסוכך + נגד 330Ω</text>
+          <line x1="60" y1="645" x2="100" y2="645" stroke="#3b82f6" stroke-width="3"/>
+          <text x="115" y="649" font-size="12">UART/I²C · 24–26AWG זוג שזור</text>
+          <line x1="60" y1="665" x2="100" y2="665" stroke="#7c3aed" stroke-width="3"/>
+          <text x="115" y="669" font-size="12">חיישני Hall · כבל 3 ליבות מסוכך 22–24AWG</text>
+        </g>
+      </svg>
+    </div>
+  </main>
+
+  <footer class="border-t bg-white">
+    <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© גלגל המזל</div>
+  </footer>
+  <script>
+    const btn = document.getElementById('navToggle');
+    const nav = document.getElementById('siteNav');
+    if (btn && nav) btn.addEventListener('click', ()=> nav.classList.toggle('hidden'));
+  </script>
+</body>
+</html>

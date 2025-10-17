@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>תרשים חיווט צבעוני - גלגל המזל</title>
+<style>
+  body {
+    font-family: 'Assistant', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1em;
+  }
+  .legend-color {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.2);
+  }
+  .mermaid {
+    width: 100%;
+    max-width: 1200px;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+<h1>⚙️ תרשים חיווט ויזואלי - מערכת גלגל המזל ⚙️</h1>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-color" style="background-color: #e74c3c;"></div><span>מתח 24V</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #3498db;"></div><span>מתח 5V</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #2c3e50;"></div><span>אדמה (GND)</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #2ecc71;"></div><span>קו נתונים (DATA)</span></div>
+  <div class="legend-item"><div class="legend-color" style="background-color: #f39c12;"></div><span>אות חיישן (SENSOR)</span></div>
+</div>
+
+<div class="mermaid">
+graph TD
+    %% Define Node Styles
+    classDef box fill:#fff,stroke:#333,stroke-width:2px,border-radius:8px;
+    classDef power fill:#ffdddd,stroke:#c0392b,stroke-width:2px;
+    classDef controller fill:#ddeeff,stroke:#2980b9,stroke-width:2px;
+    classDef component fill:#e8f8f5,stroke:#16a085,stroke-width:2px;
+
+    %% Subgraph 1: Power & Safety
+    subgraph S1 [📦 1. קופסת הבקרה - חשמל ובטיחות]
+        direction LR
+        MAINS[("🔌<br>שקע חשמל<br>230V AC")]:::box;
+        FUSE_AC["🛡️<br>פיוז ראשי<br>2A"]:::box;
+        ESTOP["⛔<br>מפסק חירום"]:::box;
+        PSU24["⚡<br>ספק כוח 24V<br>15A"]:::power;
+        PSU5["⚡<br>ספק כוח 5V<br>10A"]:::power;
+
+        MAINS -- "כבל חשמל" --> FUSE_AC -- " " --> ESTOP;
+        ESTOP --> PSU24 & PSU5;
+    end
+
+    %% Subgraph 2: DC Distribution with Fuses
+    subgraph S2 [📦 2. קופסת הבקרה - פיצול מתחים]
+        direction LR
+        FUSE24["🛡️<br>פיוז 15A<br>Slow-Blow"]:::box;
+        FUSE5["🛡️<br>פיוז 10A<br>Slow-Blow"]:::box;
+        TB24["פס חיבורים<br>24V"]:::box;
+        TB5["פס חיבורים<br>5V"]:::box;
+
+        PSU24 -- "+24V" --> FUSE24 --> TB24;
+        PSU5 -- "+5V" --> FUSE5 --> TB5;
+    end
+
+    %% Subgraph 3: Control Board
+    subgraph S3 [📦 3. קופסת הבקרה - לוח הבקרה]
+        Arduino["🤖<br>Arduino Uno"]:::controller;
+        ESP32S["🤖<br>ESP32 - חיישנים"]:::controller;
+        ESP32M["🤖<br>ESP32 - מטריצה"]:::controller;
+        R1K["<div style='font-size:10px; line-height:1'>נגד 1kΩ</div>"]:::box;
+        RPULL["<div style='font-size:10px; line-height:1'>נגד 4.7kΩ</div>"]:::box;
+
+        TB5 -- "+5V" --> Arduino & ESP32S & ESP32M;
+        Arduino -- "DATA Pin" --> R1K;
+        ESP32S -- "Sensor Pin" --> RPULL;
+    end
+
+    %% Subgraph 4: Wheel Components
+    subgraph S4 [🎡 4. גלגל המזל - רכיבים]
+        LEDR["💡<br>טבעת LED היקפית"]:::component;
+        CAP1000["<div style='font-size:10px; line-height:1'>קבל 1000µF</div>"]:::box;
+        MATRIX["🟩<br>מטריצת LED"]:::component;
+        SENSORS["🔬<br>חיישני Hall Effect"]:::component;
+        CAP100["<div style='font-size:10px; line-height:1'>קבל 100nF</div>"]:::box;
+    end
+
+    %% --- Connections between Box and Wheel ---
+    CONN_24V[(" מחבר עגול IP65<br>מתח 24V ")]:::box;
+    CONN_5V[(" מחבר עגול IP65<br>מתח 5V ")]:::box;
+    CONN_DATA[(" מחבר עגול IP65<br>נתונים ")]:::box;
+    CONN_SENSOR[(" מחבר עגול IP65<br>חיישנים ")]:::box;
+
+    %% 24V Power Links
+    TB24 -- "+24V (12AWG)" --> CONN_24V -- "+24V (14AWG)" --> LEDR;
+    PSU24 -- "GND" --> CONN_24V -- "GND" --> LEDR;
+    LEDR -.-> |"מחובר צמוד"| CAP1000;
+
+    %% 5V Power Links
+    TB5 -- "+5V (12AWG)" --> CONN_5V -- "+5V" --> MATRIX;
+    PSU5 -- "GND" --> CONN_5V -- "GND" --> MATRIX;
+
+    %% LED Data Links
+    R1K -- "DATA" --> CONN_DATA -- "DATA (CAT6)" --> LEDR;
+    PSU5 -- "GND Ref" --> CONN_DATA -- "GND (CAT6)" --> LEDR;
+
+    %% Sensor Links
+    RPULL -- "Signal" --> CONN_SENSOR -- "Signal (CAT6)" --> SENSORS;
+    TB5 -- "+5V" --> CONN_SENSOR -- "+5V" --> SENSORS;
+    PSU5 -- "GND" --> CONN_SENSOR -- "GND" --> SENSORS;
+    SENSORS -.-> |"מחובר צמוד"| CAP100;
+
+
+    %% --- Link Styles ---
+    %% 24V Links (Red)
+    linkStyle 4,21,22 stroke:#e74c3c,stroke-width:4px;
+    %% 5V Links (Blue)
+    linkStyle 6,11,25,31 stroke:#3498db,stroke-width:4px;
+    %% GND Links (Black)
+    linkStyle 23,26,28,32 stroke:#2c3e50,stroke-width:2px,stroke-dasharray: 5 5;
+    %% Data Links (Green)
+    linkStyle 12,27 stroke:#2ecc71,stroke-width:3px;
+    %% Sensor Links (Orange)
+    linkStyle 13,30 stroke:#f39c12,stroke-width:3px;
+
+</div>
+
+<script>
+    mermaid.initialize({ startOnLoad: true });
+</script>
+
+</body>
+</html>
