@@ -1,3 +1,5 @@
+
+https://yishaik.github.io/GalgalHaMazal/
 # Wheel of Fortune / גלגל המזל
 
 ## English
