@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wheel of Fortune – Home</title>
+  <link rel="manifest" href="../assets/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Wheel of Fortune system – documentation and display site: overview, diagrams, component list, and explanations." />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <link rel="stylesheet" href="../assets/site.css" />
+  <style>
+    body { font-family: 'Assistant', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .container { max-width: 1100px; }
+    nav a.active { color: #111827; font-weight: 700; }
+  </style>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const path = location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('nav a').forEach(a => {
+        const href = a.getAttribute('href');
+        if ((path === 'index.html' && href === 'index.html') || (path === '' && href === 'index.html')) {
+          a.classList.add('active');
+        }
+      });
+    });
+  </script>
+  <script src="../assets/site.js" defer></script>
+  </head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-white border-b site-header">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a class="text-xl font-bold" href="index.html">Wheel of Fortune</a>
+      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="Open menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <nav id="siteNav" class="hidden md:flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-sm">
+        <a class="text-gray-900 font-semibold" href="index.html">Home</a>
+        <a class="text-gray-600 hover:text-gray-900" href="overview.html">Overview</a>
+        <a class="text-gray-600 hover:text-gray-900" href="architecture.html">System Diagram</a>
+        <a class="text-gray-600 hover:text-gray-900" href="wiring.html">Wiring Diagram</a>
+        <a class="text-gray-600 hover:text-gray-900" href="bom.html">Part List</a>
+        <a class="text-gray-600 hover:text-gray-900" href="gallery.html">Gallery</a>
+        <a class="text-gray-600 hover:text-gray-900" href="docs.html">Documents</a>
+        <a class="text-gray-600 hover:text-gray-900" href="simulator.html">Simulator</a>
+        <a class="text-gray-600 hover:text-gray-900" href="missing.html">What's Missing?</a>
+      </nav>
+      <div class="hidden md:flex items-center gap-2 text-sm">
+        <a href="../index.html" class="text-gray-600 hover:text-gray-900">עב</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10">
+    <section class="mb-8 rounded-2xl p-6 bg-gradient-to-br from-sky-50 to-emerald-50 dark:from-[#0b1220] dark:to-[#0b1220] border border-neutral">
+      <h1 class="text-3xl font-bold mb-2">Wheel of Fortune – A Techno-Artistic Installation</h1>
+      <p class="text-gray-700 dark:text-gray-300 leading-7 mb-4">
+        The system includes a peripheral LED ring, a central LED matrix, and micro-controllers
+        for real-time interactions. Here you will find system and wiring diagrams, a component list,
+        a live simulator, as well as original documents for setup and maintenance.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="simulator.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">Run Simulator</a>
+        <a href="docs.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border">Go to Documents</a>
+      </div>
+    </section>
+
+    <section class="grid md:grid-cols-3 gap-6">
+      <a href="overview.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
+        <h2 class="text-xl font-semibold mb-2">Overview</h2>
+        <p class="text-gray-600">Sub-systems, main components, and design philosophy.</p>
+      </a>
+      <a href="architecture.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
+        <h2 class="text-xl font-semibold mb-2">System Diagram (Mermaid)</h2>
+        <p class="text-gray-600">A high-level view of power, voltage splitting, control, and wheel components.</p>
+      </a>
+      <a href="wiring.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
+        <h2 class="text-xl font-semibold mb-2">Wiring Diagram (SVG)</h2>
+        <p class="text-gray-600">Color legend, pinouts, power injections, and sensors.</p>
+      </a>
+      <a href="simulator.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
+        <h2 class="text-xl font-semibold mb-2">Live Simulator</h2>
+        <p class="text-gray-600">Control the ring and matrix through the interface.</p>
+      </a>
+      <a href="bom.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
+        <h2 class="text-xl font-semibold mb-2">Part List (BOM)</h2>
+        <p class="text-gray-600">Filter and sort by category, export to CSV.</p>
+      </a>
+      <a href="gallery.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
+        <h2 class="text-xl font-semibold mb-2">Gallery and Demos</h2>
+        <p class="text-gray-600">Component photos, visual illustrations of sub-systems.</p>
+      </a>
+      <a href="../assets/diagrams/original_mermaid.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
+        <h2 class="text-xl font-semibold mb-2">Full Mermaid Diagram</h2>
+        <p class="text-gray-600">The full version from the attached file.</p>
+      </a>
+      <a href="docs.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
+        <h2 class="text-xl font-semibold mb-2">Original Documents</h2>
+        <p class="text-gray-600">README, Mermaid diagram, PDF, Diagram.jsx.</p>
+      </a>
+      <a href="missing.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
+        <h2 class="text-xl font-semibold mb-2">What's Missing?</h2>
+        <p class="text-gray-600">A list of tasks to complete the project.</p>
+      </a>
+    </section>
+
+    <section class="mt-10 bg-white rounded-xl p-6 shadow">
+      <h2 class="text-xl font-semibold mb-3">What's on this site?</h2>
+      <ul class="list-disc pl-6 text-gray-700 leading-7">
+        <li>Concise documentation in English, based on the provided README and documents.</li>
+        <li>Wiring and system diagrams available for viewing and printing.</li>
+        <li>Interactive component list (loading a local CSV).</li>
+        <li>Image gallery for key components and installation build.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="border-t bg-white">
+    <div class="container mx-auto px-4 py-6 text-sm text-gray-500">
+      © Wheel of Fortune · Documentation and Demonstration Site
+    </div>
+  </footer>
+  <script>
+    const btn = document.getElementById('navToggle');
+    const nav = document.getElementById('siteNav');
+    if (btn && nav) btn.addEventListener('click', ()=> nav.classList.toggle('hidden'));
+  </script>
+</body>
+</html>

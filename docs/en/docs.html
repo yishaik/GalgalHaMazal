@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wheel of Fortune – Original Documents</title>
+  <link rel="manifest" href="../assets/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/site.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style> body{font-family:'Assistant','Segoe UI',Tahoma,Geneva,Verdana,sans-serif}.container{max-width:1100px} </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-white border-b site-header">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a class="text-xl font-bold" href="index.html">Wheel of Fortune</a>
+      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="Open menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <nav id="siteNav" class="hidden md:flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-sm">
+        <a class="text-gray-600 hover:text-gray-900" href="index.html">Home</a>
+        <a class="text-gray-600 hover:text-gray-900" href="overview.html">Overview</a>
+        <a class="text-gray-600 hover:text-gray-900" href="architecture.html">System Diagram</a>
+        <a class="text-gray-600 hover:text-gray-900" href="wiring.html">Wiring Diagram</a>
+        <a class="text-gray-600 hover:text-gray-900" href="bom.html">Part List</a>
+        <a class="text-gray-600 hover:text-gray-900" href="gallery.html">Gallery</a>
+        <a class="text-gray-900 font-semibold" href="docs.html">Documents</a>
+        <a class="text-gray-600 hover:text-gray-900" href="simulator.html">Simulator</a>
+        <a class="text-gray-600 hover:text-gray-900" href="missing.html">What's Missing?</a>
+      </nav>
+      <div class="hidden md:flex items-center gap-2 text-sm">
+        <a href="../docs.html" class="text-gray-600 hover:text-gray-900">עב</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10 space-y-8">
+    <section class="bg-white rounded-xl shadow p-6">
+      <h1 class="text-2xl font-bold mb-3">Original Documents</h1>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="space-y-3">
+          <a class="block p-4 border rounded-lg hover:bg-gray-50" href="../assets/diagrams/original_mermaid.html" target="_blank" rel="noopener">Original Mermaid Diagram</a>
+          <a class="block p-4 border rounded-lg hover:bg-gray-50" href="../assets/docs/Diagram.jsx" download>Diagram.jsx (React) – Download</a>
+          <a class="block p-4 border rounded-lg hover:bg-gray-50" href="../diagram-viewer.html" target="_blank" rel="noopener">Viewer for Diagram.jsx (in browser)</a>
+          <a class="block p-4 border rounded-lg hover:bg-gray-50" href="BOM.csv" download>BOM.csv File – Download</a>
+          <a class="block p-4 border rounded-lg hover:bg-gray-50" href="../assets/docs/technical_spec_updated.pdf" target="_blank" rel="noopener">Technical Specification Document (PDF)</a>
+        </div>
+        <div class="">
+          <div class="aspect-video w-full bg-gray-100 rounded border overflow-hidden">
+            <iframe src="../assets/diagrams/original_mermaid.html" title="Mermaid" class="w-full h-full"></iframe>
+          </div>
+          <p class="text-xs text-gray-500 mt-2">Embedded view of the original Mermaid diagram.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-xl font-semibold mb-2">Original README</h2>
+      <div id="readme" class="prose prose-slate max-w-none"></div>
+    </section>
+  </main>
+
+  <footer class="border-t bg-white">
+    <div class="container mx-auto px-4 py-6 text-sm text-gray-500">© Wheel of Fortune</div>
+  </footer>
+
+  <script src="../assets/site.js" defer></script>
+  <script>
+    const btn = document.getElementById('navToggle');
+    const nav = document.getElementById('siteNav');
+    if (btn && nav) btn.addEventListener('click', ()=> nav.classList.toggle('hidden'));
+  </script>
+  <script>
+    fetch('README.md').then(r=>r.text()).then(md => {
+      const html = marked.parse(md);
+      document.getElementById('readme').innerHTML = html;
+    }).catch(()=>{
+      document.getElementById('readme').innerHTML = '<p class="text-gray-500">README version not found</p>';
+    });
+  </script>
+</body>
+</html>
