@@ -11,7 +11,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="description" content="מערכת גלגל המזל – אתר תיעוד ותצוגה: סקירה, תרשימים, רשימת רכיבים, והסברים." />
   <link rel="icon" href="assets/favicon.svg" />
-  <link rel="stylesheet" href="assets/site.css" />
+  <link rel="stylesheet" href="assets/new-style.css" />
   <style>
     body { font-family: 'Assistant', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     .container { max-width: 1100px; }
@@ -30,86 +30,86 @@
   </script>
   <script src="assets/site.js" defer></script>
   </head>
-<body class="bg-gray-50 text-gray-800">
-  <header class="bg-white border-b site-header">
+<body class="bg-gray-900 text-white">
+  <header class="site-header">
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-      <a class="text-xl font-bold" href="index.html">גלגל המזל</a>
-      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border text-gray-600 hover:bg-gray-50" aria-label="פתח תפריט" aria-expanded="false">
+      <a class="text-2xl font-bold text-yellow-400" href="index.html">גלגל המזל</a>
+      <button id="navToggle" class="md:hidden inline-flex items-center justify-center p-2 rounded border border-gray-600 text-gray-400 hover:bg-gray-800" aria-label="פתח תפריט" aria-expanded="false">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-      <nav id="siteNav" class="hidden md:flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-sm">
-        <a class="text-gray-900 font-semibold" href="index.html">בית</a>
-        <a class="text-gray-600 hover:text-gray-900" href="overview.html">סקירה</a>
-        <a class="text-gray-600 hover:text-gray-900" href="architecture.html">תרשים מערכת</a>
-        <a class="text-gray-600 hover:text-gray-900" href="wiring.html">תרשים חיווט</a>
-        <a class="text-gray-600 hover:text-gray-900" href="bom.html">רשימת חלקים</a>
-        <a class="text-gray-600 hover:text-gray-900" href="gallery.html">גלריה</a>
-        <a class="text-gray-600 hover:text-gray-900" href="docs.html">מסמכים</a>
-        <a class="text-gray-600 hover:text-gray-900" href="simulator.html">סימולטור</a>
-        <a class="text-gray-600 hover:text-gray-900" href="missing.html">מה חסר?</a>
+      <nav id="siteNav" class="hidden md:flex flex-col md:flex-row md:items-center gap-4 md:gap-8 text-lg">
+        <a class="text-gray-300 hover:text-yellow-400 font-semibold" href="index.html">בית</a>
+        <a class="text-gray-300 hover:text-yellow-400" href="overview.html">סקירה</a>
+        <a class="text-gray-300 hover:text-yellow-400" href="architecture.html">תרשים מערכת</a>
+        <a class="text-gray-300 hover:text-yellow-400" href="wiring.html">תרשים חיווט</a>
+        <a class="text-gray-300 hover:text-yellow-400" href="bom.html">רשימת חלקים</a>
+        <a class="text-gray-300 hover:text-yellow-400" href="gallery.html">גלריה</a>
+        <a class="text-gray-300 hover:text-yellow-400" href="docs.html">מסמכים</a>
+        <a class="text-gray-300 hover:text-yellow-400" href="simulator.html">סימולטור</a>
+        <a class="text-gray-300 hover:text-yellow-400" href="missing.html">מה חסר?</a>
       </nav>
-      <div class="hidden md:flex items-center gap-2 text-sm">
-        <a href="en/index.html" class="text-gray-600 hover:text-gray-900">EN</a>
+      <div class="hidden md:flex items-center gap-4 text-lg">
+        <a href="en/index.html" class="text-gray-300 hover:text-yellow-400">EN</a>
       </div>
     </div>
   </header>
 
-  <main class="container mx-auto px-4 py-10">
-    <section class="mb-8 rounded-2xl p-6 bg-gradient-to-br from-sky-50 to-emerald-50 dark:from-[#0b1220] dark:to-[#0b1220] border border-neutral">
-      <h1 class="text-3xl font-bold mb-2">גלגל המזל – מיצב טכנולוגי‑אמנותי</h1>
-      <p class="text-gray-700 dark:text-gray-300 leading-7 mb-4">
-        מערכת כוללת טבעת LED היקפית, מטריצת LED מרכזית ובקרי מיקרו
-        לאינטראקציות בזמן אמת. כאן תמצאו תרשימי מערכת וחיווט, רשימת רכיבים,
-        סימולטור חי, וכן מסמכים מקוריים להקמה ותחזוקה.
+  <main class="container mx-auto px-4 py-12">
+    <section class="text-center my-12 rounded-2xl p-8 bg-gray-800 shadow-lg">
+      <h1 class="text-5xl font-bold mb-4 text-yellow-400 animate-pulse">גלגל המזל – מיצב טכנולוגי‑אמנותי</h1>
+      <p class="text-xl text-gray-300 leading-8 mb-6">
+        חוויה אינטראקטיבית המשלבת אמנות ואלקטרוניקה. גלגל המזל כולל טבעת LED היקפית עם 160 נורות, מטריצת LED מרכזית בגודל 32x32, וחיישנים המאפשרים אינטראקציה בזמן אמת.
+        <br/>
+        באתר זה תוכלו למצוא את כל המידע על הפרויקט: תרשימי מערכת וחיווט, רשימת רכיבים מלאה, סימולטור אינטראקטיבי, וכמובן, את כל המסמכים המקוריים של הפרויקט.
       </p>
-      <div class="flex flex-wrap gap-3">
-        <a href="simulator.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">הפעל סימולטור</a>
-        <a href="docs.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border">מעבר למסמכים</a>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="simulator.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-yellow-500 text-gray-900 font-bold hover:bg-yellow-600 transition-transform transform hover:scale-105">הפעל סימולטור</a>
+        <a href="docs.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-600 text-gray-300 hover:bg-gray-700">מעבר למסמכים</a>
       </div>
     </section>
 
-    <section class="grid md:grid-cols-3 gap-6">
-      <a href="overview.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
-        <h2 class="text-xl font-semibold mb-2">סקירה כללית</h2>
-        <p class="text-gray-600">תתי‑מערכות, רכיבים עיקריים, ופילוסופיית תכנון.</p>
+    <section class="grid md:grid-cols-3 gap-8">
+      <a href="overview.html" class="card block bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow p-6 transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold mb-3 text-yellow-400">סקירה כללית</h2>
+        <p class="text-gray-400">תתי‑מערכות, רכיבים עיקריים, ופילוסופיית תכנון.</p>
       </a>
-      <a href="architecture.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
-        <h2 class="text-xl font-semibold mb-2">תרשים מערכת (Mermaid)</h2>
-        <p class="text-gray-600">מבט־על על חשמל, פיצול מתחים, בקרה ורכיבי הגלגל.</p>
+      <a href="architecture.html" class="card block bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow p-6 transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold mb-3 text-yellow-400">תרשים מערכת (Mermaid)</h2>
+        <p class="text-gray-400">מבט‑על על חשמל, פיצול מתחים, בקרה ורכיבי הגלגל.</p>
       </a>
-      <a href="wiring.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
-        <h2 class="text-xl font-semibold mb-2">תרשים חיווט (SVG)</h2>
-        <p class="text-gray-600">מקרא צבעים, פין‑אאוטים, הזרקות כוח וחיישנים.</p>
+      <a href="wiring.html" class="card block bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow p-6 transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold mb-3 text-yellow-400">תרשים חיווט (SVG)</h2>
+        <p class="text-gray-400">מקרא צבעים, פין‑אאוטים, הזרקות כוח וחיישנים.</p>
       </a>
-      <a href="simulator.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
-        <h2 class="text-xl font-semibold mb-2">סימולטור חי</h2>
-        <p class="text-gray-600">שלוט בטבעת ובמטריצה דרך הממשק.</p>
+      <a href="simulator.html" class="card block bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow p-6 transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold mb-3 text-yellow-400">סימולטור חי</h2>
+        <p class="text-gray-400">שלוט בטבעת ובמטריצה דרך הממשק.</p>
       </a>
-      <a href="bom.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
-        <h2 class="text-xl font-semibold mb-2">רשימת חלקים (BOM)</h2>
-        <p class="text-gray-600">פילטור ומיון לפי קטגוריה, ייצוא ל‑CSV.</p>
+      <a href="bom.html" class="card block bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow p-6 transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold mb-3 text-yellow-400">רשימת חלקים (BOM)</h2>
+        <p class="text-gray-400">פילטור ומיון לפי קטגוריה, ייצוא ל‑CSV.</p>
       </a>
-      <a href="gallery.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
-        <h2 class="text-xl font-semibold mb-2">גלריה והדגמות</h2>
-        <p class="text-gray-600">תמונות רכיבים, המחשות ויזואליות של תת‑מערכות.</p>
+      <a href="gallery.html" class="card block bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow p-6 transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold mb-3 text-yellow-400">גלריה והדגמות</h2>
+        <p class="text-gray-400">תמונות רכיבים, המחשות ויזואליות של תת‑מערכות.</p>
       </a>
-      <a href="assets/diagrams/original_mermaid.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
-        <h2 class="text-xl font-semibold mb-2">תרשים Mermaid מלא</h2>
-        <p class="text-gray-600">הגרסה המלאה מתוך התיק המצורף.</p>
+      <a href="assets/diagrams/original_mermaid.html" class="card block bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow p-6 transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold mb-3 text-yellow-400">תרשים Mermaid מלא</h2>
+        <p class="text-gray-400">הגרסה המלאה מתוך התיק המצורף.</p>
       </a>
-      <a href="docs.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
-        <h2 class="text-xl font-semibold mb-2">מסמכים מקוריים</h2>
-        <p class="text-gray-600">README, תרשים Mermaid, PDF, Diagram.jsx.</p>
+      <a href="docs.html" class="card block bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow p-6 transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold mb-3 text-yellow-400">מסמכים מקוריים</h2>
+        <p class="text-gray-400">README, תרשים Mermaid, PDF, Diagram.jsx.</p>
       </a>
-      <a href="missing.html" class="block bg-white rounded-xl shadow hover:shadow-md transition p-6">
-        <h2 class="text-xl font-semibold mb-2">מה חסר?</h2>
-        <p class="text-gray-600">רשימת משימות להשלמת הפרויקט.</p>
+      <a href="missing.html" class="card block bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow p-6 transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold mb-3 text-yellow-400">מה חסר?</h2>
+        <p class="text-gray-400">רשימת משימות להשלמת הפרויקט.</p>
       </a>
     </section>
 
-    <section class="mt-10 bg-white rounded-xl p-6 shadow">
-      <h2 class="text-xl font-semibold mb-3">מה באתר הזה?</h2>
-      <ul class="list-disc pr-6 text-gray-700 leading-7">
+    <section class="mt-12 bg-gray-800 rounded-xl p-8 shadow-lg">
+      <h2 class="text-3xl font-semibold mb-4 text-yellow-400">מה באתר הזה?</h2>
+      <ul class="list-disc pr-6 text-gray-300 leading-8 text-lg">
         <li>תיעוד תמציתי בעברית, מבוסס README והמסמכים שסופקו.</li>
         <li>תרשימי חיווט ומערכת זמינים לצפייה ולהדפסה.</li>
         <li>רשימת רכיבים אינטראקטיבית (טעינת CSV מקומית).</li>
