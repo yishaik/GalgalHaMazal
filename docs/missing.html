@@ -61,7 +61,17 @@
 
     <section class="bg-white rounded-xl shadow p-6">
       <h2 class="text-xl font-semibold mb-2">איך אפשר לעזור?</h2>
-      <p class="text-gray-700">שלחו תמונות, קבצים או קישורים – ואשלב אותם באתר.</p>
+      <p class="text-gray-700 mb-4">שלחו תמונות, קבצים או קישורים – ואשלב אותם באתר.</p>
+      <form id="uploadForm" class="space-y-4">
+        <div>
+          <label for="fileInput" class="block text-sm font-medium text-gray-700">בחרו קובץ:</label>
+          <input type="file" id="fileInput" name="file" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
+        </div>
+        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+          העלאה
+        </button>
+      </form>
+      <p id="uploadStatus" class="mt-4 text-sm"></p>
     </section>
   </main>
 
@@ -73,6 +83,43 @@
     const btn = document.getElementById('navToggle');
     const nav = document.getElementById('siteNav');
     if (btn && nav) btn.addEventListener('click', ()=> nav.classList.toggle('hidden'));
+
+    const uploadForm = document.getElementById('uploadForm');
+    const fileInput = document.getElementById('fileInput');
+    const uploadStatus = document.getElementById('uploadStatus');
+
+    uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const file = fileInput.files[0];
+      if (!file) {
+        uploadStatus.textContent = 'אנא בחרו קובץ.';
+        uploadStatus.className = 'text-red-600';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      uploadStatus.textContent = 'מעלה...';
+      uploadStatus.className = 'text-blue-600';
+
+      try {
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        const result = await response.json();
+        if (response.ok) {
+          uploadStatus.textContent = 'הקובץ הועלה בהצלחה!';
+          uploadStatus.className = 'text-green-600';
+        } else {
+          throw new Error(result.message || 'העלאה נכשלה');
+        }
+      } catch (error) {
+        uploadStatus.textContent = `שגיאה: ${error.message}`;
+        uploadStatus.className = 'text-red-600';
+      }
+    });
   </script>
 </body>
 </html>
